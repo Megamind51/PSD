@@ -16,12 +16,11 @@ public class Client {
 
     public static void main(String[] args) {
         try{
-            if(args.length<2)
-                System.exit(1);
 
             SocketChannel client = SocketChannel.open();
             SocketAddress socketAddr = new InetSocketAddress("localhost", Integer.parseInt(args[0]));
-            client.bind( socketAddr);
+            client.connect(socketAddr);
+
             ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
 
             Auth p = createAuth(0,0,"O ganso","Ah o ganso");
