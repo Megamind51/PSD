@@ -8,6 +8,8 @@ import com.google.protobuf.CodedOutputStream;
 
 import java.io.*;
 import java.net.*;
+import java.nio.*;
+import java.nio.channels.SocketChannel;
 
 
 public class Client {
@@ -17,24 +19,18 @@ public class Client {
             if(args.length<2)
                 System.exit(1);
 
-            String host = args[0];
-            int port = Integer.parseInt(args[1]);
-            Socket s = new Socket(host, port);
-            CodedInputStream cis = CodedInputStream.newInstance(s.getInputStream());
-            CodedOutputStream cos = CodedOutputStream.newInstance(s.getOutputStream());
+            SocketChannel client = SocketChannel.open();
+            SocketAddress socketAddr = new InetSocketAddress("localhost", Integer.parseInt(args[0]));
+            client.bind( socketAddr);
+            ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
+
             Auth p = createAuth(0,0,"O ganso","Ah o ganso");
             byte[] ba = p.toByteArray();
-            while (true) {
-                System.out.println("Len: " + ba.length);
-                cos.writeFixed32NoTag(ba.length);
-                System.out.println("Wrote Len");
-                cos.writeRawBytes(ba);
-                System.out.println("Wrote " + ba.length + " bytes");
-                cos.flush();
-                Thread.sleep(3000);
-            }
-            //os.close();
-            //s.shutdownOutput();
+            client.write(ByteBuffer.wrap(ba));
+            Thread.sleep(3000);
+            client.read(byteBuffer);
+            p = Auth.parseFrom(byteBuffer) ;
+            System.out.println(p.toString());
         }catch(Exception e){
             e.printStackTrace();
             System.exit(0);
