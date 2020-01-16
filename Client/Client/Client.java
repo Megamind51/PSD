@@ -30,9 +30,6 @@ public class Client {
             client.read(byteBuffer);
             byteBuffer.flip();
             byte[] aux = new byte[1024];
-            byteBuffer.equals(
-
-            )get(aux);
             p = Auth.parseFrom(aux) ;
             System.out.println(p.toString());
         }catch(Exception e){
