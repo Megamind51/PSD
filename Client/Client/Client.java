@@ -1,6 +1,6 @@
-package company.Client;
+package Client;
 
-import company.Protos.AuthOuterClass.Auth;
+import Protos.AuthOuterClass.Auth;
 
 
 import com.google.protobuf.CodedInputStream;
@@ -26,9 +26,14 @@ public class Client {
             Auth p = createAuth(0,0,"O ganso","Ah o ganso");
             byte[] ba = p.toByteArray();
             client.write(ByteBuffer.wrap(ba));
-            Thread.sleep(3000);
+            byteBuffer.rewind();
             client.read(byteBuffer);
-            p = Auth.parseFrom(byteBuffer) ;
+            byteBuffer.flip();
+            byte[] aux = new byte[1024];
+            byteBuffer.equals(
+
+            )get(aux);
+            p = Auth.parseFrom(aux) ;
             System.out.println(p.toString());
         }catch(Exception e){
             e.printStackTrace();
