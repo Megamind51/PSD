@@ -1,13 +1,14 @@
 -module(auth).
 -import(manufacturer, [manufacturer/1]).
+-import(bot, [manufacturerBot/1]).
 -import(importer, [importer/1]).
 -export([auth/2]).
 
 auth (Credentials, Catalog) ->
   receive
-    {Sock, TcpHandler, DecodedMap} ->
+    {Sock, TcpHandler, EncodedData} ->
       io:format("BREAKPOINT 0.\n"),
-      DecodedMap,
+      DecodedMap = proto_auth:decode_msg(EncodedData, 'Auth'),
       io:format("BREAKPOINT 0.5.\n"),
       Operation = maps:get(operation, DecodedMap),
       io:format("BREAKPOINT 1.\n"),
@@ -22,21 +23,21 @@ auth (Credentials, Catalog) ->
             {login_granted, Role} ->
               io:format("LOGIN GRANTED.\n"),
               case Role of
-                  'MANUFACTURER' -> NextPID = spawn(fun() -> manufacturer(Catalog) end);
+                  'MANUFACTURER' -> NextPID = spawn(fun() -> manufacturerBot(Catalog) end);
                   'IMPORTER' -> NextPID = spawn(fun() -> importer(Catalog) end)
               end,
               TcpHandler ! NextPID, 
-              ResponseMap = auth:encode_msg(#{username => Username, password => Password, authenticated => 0, type => Role, operation => Operation}, 'Auth'),
+              ResponseMap = proto_auth:encode_msg(#{username => Username, password => Password, authenticated => 0, type => Role, operation => Operation}, 'Auth'),
               gen_tcp:send(Sock, ResponseMap);
             % PASSWORDS DON'T MATCH
             {login_denied} ->
               io:format("LOGIN DENIED.\n"),
-              ResponseMap = auth:encode_msg(#{username => Username, password => Password, authenticated => 2, operation => Operation}, 'Auth'),
+              ResponseMap = proto_auth:encode_msg(#{username => Username, password => Password, authenticated => 2, operation => Operation}, 'Auth'),
               gen_tcp:send(Sock, ResponseMap);
             % USERNAME NOT FOUND
             {login_username_missing} ->
               io:format("LOGIN USERNAME MISSING.\n"),
-              ResponseMap = auth:encode_msg(#{username => Username, password => Password, authenticated => 1, operation => Operation}, 'Auth'),
+              ResponseMap = proto_auth:encode_msg(#{username => Username, password => Password, authenticated => 1, operation => Operation}, 'Auth'),
               gen_tcp:send(Sock, ResponseMap),
               io:format("BREAKPOINT 6.\n")
           end
@@ -45,7 +46,8 @@ auth (Credentials, Catalog) ->
         %;
         % REGISTER OPERATION
         %'REGISTER' ->
-      end
+      end,
+  auth(Credentials, Catalog)
   end.
 
 login (Credentials, Username, Password) ->

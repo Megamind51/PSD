@@ -19,9 +19,11 @@ tcp_handler(Sock, Pid) ->
     {pid, NewPid} ->
       tcp_handler(Sock, NewPid);
     {tcp, Sock, EncodedData} ->
-      Pid ! {Sock, self(), EncodedData};
+      Pid ! {Sock, self(), EncodedData},
+      tcp_handler(Sock, Pid);
     {tcp_closed, _} ->
       io:format("Connection closed.\n");
     {tcp_error, _, _} ->
-      io:format("TCP Error ocurred.\n")
+      io:format("TCP Error ocurred.\n"),
+      tcp_handler(Sock, Pid)
   end.
