@@ -1,19 +1,19 @@
-package company.Catolog;
+package Catolog;
 
-import company.Catolog.resources.DepartmentResource;
+import resources.CatalogResource;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
 import company.Catolog.health.TemplateHealthCheck;
 
-public class CompanyApplication extends Application<CompanyConfiguration> {
+public class CatalogApplication extends Application<CompanyConfiguration> {
     public static void main(String[] args) throws Exception {
-        new CompanyApplication().run(args);
+        new CatalogApplication().run(args);
     }
 
     @Override
-    public String getName() { return "Company"; }
+    public String getName() { return "Catalog API"; }
 
     @Override
     public void initialize(Bootstrap<CompanyConfiguration> bootstrap) { }
