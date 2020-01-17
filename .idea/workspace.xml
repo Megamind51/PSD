@@ -2,20 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="14dca174-1d90-4f14-9375-e81d30454f33" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Catolog/models/Item.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Catolog/CatalogApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/Catolog/CatalogApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Catolog/health/TemplateHealthCheck.java" beforeDir="false" afterPath="$PROJECT_DIR$/Catolog/health/TemplateHealthCheck.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Catolog/models/Manufacturer.java" beforeDir="false" afterPath="$PROJECT_DIR$/Catolog/models/Manufacturer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Catolog/representations/Saying.java" beforeDir="false" afterPath="$PROJECT_DIR$/Catolog/representations/Saying.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Catolog/resources/DepartmentResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/Catolog/resources/DepartmentResource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/Client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Client/Client.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Company.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Company.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth.erl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/login_proto.erl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/company/Catolog/CompanyApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/Catolog/CompanyApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/company/Catolog/CompanyConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/Catolog/CompanyConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/company/Catolog/Protos/auth.proto" beforeDir="false" afterPath="$PROJECT_DIR$/Catolog/Protos/auth.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/company/Catolog/health/TemplateHealthCheck.java" beforeDir="false" afterPath="$PROJECT_DIR$/Catolog/health/TemplateHealthCheck.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/company/Catolog/representations/Saying.java" beforeDir="false" afterPath="$PROJECT_DIR$/Catolog/representations/Saying.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/company/Catolog/resources/DepartmentResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/Catolog/resources/DepartmentResource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/company/Client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/Client/Client/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/company/Protos/AuthOuterClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/Protos/AuthOuterClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/company/Protos/auth.proto" beforeDir="false" afterPath="$PROJECT_DIR$/Protos/auth.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/company/AppTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/auth.erl" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/auth.erl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/catalog.erl" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/catalog.erl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,21 +49,30 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/Client" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/drop/rest-dropwizard/Hello" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Catolog" />
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration name="Client" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="company.Client.Client" />
+  <component name="RunManager" selected="Application.Client">
+    <configuration name="CatalogApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="CatalogApplication" />
       <module name="Company" />
-      <option name="PROGRAM_PARAMETERS" value="10001" />
+      <option name="PROGRAM_PARAMETERS" value="server " />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Client" type="Application" factoryName="Application" singleton="false" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Client.Client" />
+      <module name="Company" />
+      <option name="PROGRAM_PARAMETERS" value="10001 10002" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="company.Client.*" />
@@ -76,9 +83,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.Client" />
+      <item itemvalue="Application.CatalogApplication" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Client" />
+        <item itemvalue="Application.CatalogApplication" />
       </list>
     </recent_temporary>
   </component>
@@ -108,46 +119,50 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="141" y="54" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1579115609458">
+    <state x="141" y="54" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1579281581525">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
-    <state x="141" y="54" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.27.1366.741@0.27.1366.741" timestamp="1579115609458" />
-    <state x="491" y="109" width="374" height="575" key="#com.intellij.ide.util.MemberChooser" timestamp="1579111481796">
+    <state x="141" y="54" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.27.1366.741@0.27.1366.741" timestamp="1579281581525" />
+    <state x="491" y="109" width="374" height="575" key="#com.intellij.ide.util.MemberChooser" timestamp="1579299318832">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
-    <state x="491" y="109" width="374" height="575" key="#com.intellij.ide.util.MemberChooser/0.27.1366.741@0.27.1366.741" timestamp="1579111481796" />
-    <state width="1320" height="175" key="GridCell.Tab.0.bottom" timestamp="1579116009505">
+    <state x="491" y="109" width="374" height="575" key="#com.intellij.ide.util.MemberChooser/0.27.1366.741@0.27.1366.741" timestamp="1579299318832" />
+    <state x="466" y="154" width="424" height="484" key="FileChooserDialogImpl" timestamp="1579281447562">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
-    <state width="1320" height="175" key="GridCell.Tab.0.bottom/0.27.1366.741@0.27.1366.741" timestamp="1579116009505" />
-    <state width="1320" height="175" key="GridCell.Tab.0.center" timestamp="1579116009504">
+    <state x="466" y="154" width="424" height="484" key="FileChooserDialogImpl/0.27.1366.741@0.27.1366.741" timestamp="1579281447562" />
+    <state width="1320" height="175" key="GridCell.Tab.0.bottom" timestamp="1579296471148">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
-    <state width="1320" height="175" key="GridCell.Tab.0.center/0.27.1366.741@0.27.1366.741" timestamp="1579116009504" />
-    <state width="1320" height="175" key="GridCell.Tab.0.left" timestamp="1579116009503">
+    <state width="1320" height="175" key="GridCell.Tab.0.bottom/0.27.1366.741@0.27.1366.741" timestamp="1579296471148" />
+    <state width="1320" height="175" key="GridCell.Tab.0.center" timestamp="1579296471146">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
-    <state width="1320" height="175" key="GridCell.Tab.0.left/0.27.1366.741@0.27.1366.741" timestamp="1579116009503" />
-    <state width="1320" height="175" key="GridCell.Tab.0.right" timestamp="1579116009505">
+    <state width="1320" height="175" key="GridCell.Tab.0.center/0.27.1366.741@0.27.1366.741" timestamp="1579296471146" />
+    <state width="1320" height="175" key="GridCell.Tab.0.left" timestamp="1579296471146">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
-    <state width="1320" height="175" key="GridCell.Tab.0.right/0.27.1366.741@0.27.1366.741" timestamp="1579116009505" />
+    <state width="1320" height="175" key="GridCell.Tab.0.left/0.27.1366.741@0.27.1366.741" timestamp="1579296471146" />
+    <state width="1320" height="175" key="GridCell.Tab.0.right" timestamp="1579296471147">
+      <screen x="0" y="27" width="1366" height="741" />
+    </state>
+    <state width="1320" height="175" key="GridCell.Tab.0.right/0.27.1366.741@0.27.1366.741" timestamp="1579296471147" />
     <state x="216" y="54" width="924" height="684" key="Maven.ArtifactSearchDialog" timestamp="1579109118924">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
     <state x="216" y="54" width="924" height="684" key="Maven.ArtifactSearchDialog/0.27.1366.741@0.27.1366.741" timestamp="1579109118924" />
-    <state x="166" y="27" width="1024" height="741" key="SettingsEditor" timestamp="1579174044664">
+    <state x="166" y="27" width="1024" height="741" key="SettingsEditor" timestamp="1579280259119">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
-    <state x="166" y="27" width="1024" height="741" key="SettingsEditor/0.27.1366.741@0.27.1366.741" timestamp="1579174044664" />
-    <state x="455" y="176" width="446" height="440" key="chooseDestDirectoryDialog" timestamp="1579174078550">
+    <state x="166" y="27" width="1024" height="741" key="SettingsEditor/0.27.1366.741@0.27.1366.741" timestamp="1579280259119" />
+    <state x="455" y="176" width="446" height="440" key="chooseDestDirectoryDialog" timestamp="1579287518604">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
-    <state x="455" y="176" width="446" height="440" key="chooseDestDirectoryDialog/0.27.1366.741@0.27.1366.741" timestamp="1579174078550" />
-    <state x="339" y="224" key="com.intellij.ide.util.TipDialog" timestamp="1579115491739">
+    <state x="455" y="176" width="446" height="440" key="chooseDestDirectoryDialog/0.27.1366.741@0.27.1366.741" timestamp="1579287518604" />
+    <state x="339" y="224" key="com.intellij.ide.util.TipDialog" timestamp="1579280074199">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
-    <state x="339" y="224" key="com.intellij.ide.util.TipDialog/0.27.1366.741@0.27.1366.741" timestamp="1579115491739" />
+    <state x="339" y="224" key="com.intellij.ide.util.TipDialog/0.27.1366.741@0.27.1366.741" timestamp="1579280074199" />
     <state x="451" y="316" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1579111302424">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
