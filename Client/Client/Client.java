@@ -34,6 +34,7 @@ public class Client {
             byteBuffer.get(aux);
             p = Auth.parseFrom(aux) ;
             System.out.println(p.toString());
+            sleep(123123123);
             client.close();
         }catch(Exception e){
             e.printStackTrace();

@@ -39,19 +39,18 @@ public class DepartmentResource {
     }
 
     @PUT
-    @Path("/manufacturers/{id}{name}")
-    public Manufacturer putManufacturer(@PathParam("name") String name) {
-        Manufacturer manufacturer = manufacturers.get(name);
+    @Path("/manufacturers/{id}/{name}")
+    public List<String> putManufacturer(@PathParam("id") String id, @PathParam("name") String name ) {
+        Manufacturer manufacturer = manufacturers.get(id);
 
-        if( manufacturer != null){
+        if( manufacturer == null){
             throw new WebApplicationException(FORBIDDEN);
         }
-        manufacturer = new Manufacturer(name);
-        this.manufacturers.put( "" + this.counter++ , manufacturer);
-        return manufacturer;
+        this.manufacturers.put( id , new Manufacturer(name));
+        return getManufacturers();
     }
 
-    @Post
+    //@Post
 
 /*    @GET
     @Path("/manufacturers/{name}")

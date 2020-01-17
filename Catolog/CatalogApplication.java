@@ -5,7 +5,6 @@ import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
-import company.Catolog.health.TemplateHealthCheck;
 
 public class CatalogApplication extends Application<Configuration> {
     public static void main(String[] args) throws Exception {

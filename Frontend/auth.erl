@@ -26,9 +26,9 @@ auth (Credentials, Catalog) ->
                   'MANUFACTURER' -> NextPID = spawn(fun() -> manufacturerBot(Catalog) end);
                   'IMPORTER' -> NextPID = spawn(fun() -> importer(Catalog) end)
               end,
-              TcpHandler ! NextPID, 
+              TcpHandler ! NextPID,
               ResponseMap = proto_auth:encode_msg(#{username => Username, password => Password, authenticated => 0, type => Role, operation => Operation}, 'Auth'),
-              gen_tcp:send(Sock, ResponseMap);
+                gen_tcp:send(Sock, ResponseMap);
             % PASSWORDS DON'T MATCH
             {login_denied} ->
               io:format("LOGIN DENIED.\n"),

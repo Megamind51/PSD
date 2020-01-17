@@ -13,12 +13,12 @@ catalog(Catalog) ->
                                    <<"offer_timeout">> => OfferTimeout}),
       %DecodedJSON = jiffy:decode(EncodedJSON, [return_maps]),
       %io:format(DecodedJSON),
-      inets:start(),
-      {ok, {{_, 200, _}, _, Response}} = httpc:request("http://localhost:8000/test"),
-      inets:stop(),
-      io:format(Response),
-      DecodedJSON = jiffy:decode(Response, [return_maps]),
-      io:format(DecodedJSON),
+      %inets:start(),
+      %{ok, {{_, 200, _}, _, Response}} = httpc:request("http://localhost:8000/test"),
+      %inets:stop(),
+      %io:format(Response),
+      %DecodedJSON = jiffy:decode(Response, [return_maps]),
+      %io:format(DecodedJSON),
       catalog(Catalog);
     {bid, Importer, Manufacturer, ProductName, Quantity, Price} ->
       io:format("Received a bid from an importer.\n"),

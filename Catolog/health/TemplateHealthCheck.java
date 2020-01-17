@@ -1,4 +1,4 @@
-package company.Catolog.health;
+package health;
 
 import com.codahale.metrics.health.HealthCheck;
 

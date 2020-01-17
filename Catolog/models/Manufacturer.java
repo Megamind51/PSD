@@ -3,6 +3,7 @@ package models;
 public class Manufacturer {
 
     String name;
+    Item[] items;
 
     public String getName() {
         return name;

@@ -1,4 +1,4 @@
-package company.Catolog.representations;
+package representations;
 
 //import com.fasterxml.jackson.annotation.*;
 
