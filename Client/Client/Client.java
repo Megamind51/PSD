@@ -11,6 +11,8 @@ import java.net.*;
 import java.nio.*;
 import java.nio.channels.SocketChannel;
 
+import static java.lang.Thread.sleep;
+
 
 public class Client {
 
@@ -22,14 +24,12 @@ public class Client {
             client.connect(socketAddr);
             ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
 
-            Auth p = createAuth(0,0,"O ganso","Ah o ganso");
+            Auth p = createAuth(0,0,"m0","pm0");
             byte[] ba = p.toByteArray();
             client.write(ByteBuffer.wrap(ba));
-
             byteBuffer.clear();
             client.read(byteBuffer);
             byteBuffer.flip();
-
             byte[] aux = new byte[byteBuffer.remaining()];
             byteBuffer.get(aux);
             p = Auth.parseFrom(aux) ;

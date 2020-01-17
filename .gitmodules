@@ -1,0 +1,6 @@
+[submodule "Dependencies/gpb"]
+	path = Dependencies/gpb
+	url = https://github.com/tomas-abrahamsson/gpb/
+[submodule "Dependencies/jiffy"]
+	path = Dependencies/jiffy
+	url = https://github.com/davisp/jiffy.git
