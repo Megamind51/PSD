@@ -20,21 +20,21 @@ public class Client {
             SocketChannel client = SocketChannel.open();
             SocketAddress socketAddr = new InetSocketAddress("localhost", Integer.parseInt(args[0]));
             client.connect(socketAddr);
-
             ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
 
             Auth p = createAuth(0,0,"O ganso","Ah o ganso");
             byte[] ba = p.toByteArray();
             client.write(ByteBuffer.wrap(ba));
-            byteBuffer.rewind();
+
+            byteBuffer.clear();
             client.read(byteBuffer);
             byteBuffer.flip();
-            byte[] aux = new byte[1024];
-            byteBuffer.equals(
 
-            )get(aux);
+            byte[] aux = new byte[byteBuffer.remaining()];
+            byteBuffer.get(aux);
             p = Auth.parseFrom(aux) ;
             System.out.println(p.toString());
+            client.close();
         }catch(Exception e){
             e.printStackTrace();
             System.exit(0);
