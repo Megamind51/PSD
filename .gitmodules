@@ -1,3 +1,0 @@
-[submodule "src/dependencies/chumak"]
-	path = src/dependencies/chumak
-	url = https://github.com/zeromq/chumak.git
