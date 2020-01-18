@@ -139,6 +139,21 @@ public class DepartmentResource {
 
     }
 
+    @PUT
+    @Path("/{name}/move2History/{nameP}")
+    public Response moveToHistory(@PathParam("name") String name,@PathParam("nameP") String nameProd){
+        if(this.manufacturers.containsKey(name)){
+            Item item = this.manufacturers.get(name).getItem(nameProd);
+            this.manufacturers.get(name).removeItem(nameProd);
+            this.manufacturers.get(name).addHistory(item);
+            return Response.ok().build();
+        }
+        else throw new WebApplicationException(Response.Status.NOT_FOUND);
+
+    }
+
+
+
 
 
     //---------------DELETE's

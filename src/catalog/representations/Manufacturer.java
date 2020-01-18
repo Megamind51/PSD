@@ -63,6 +63,14 @@ public class Manufacturer {
         this.items.put(item.getName(),item);
     }
 
+    public void removeItem(String name){
+        this.items.remove(name);
+    }
+
+    public void addHistory(Item p){
+       this.history.put(p.getName(),new History(p));
+    }
+
     @JsonCreator
     public Manufacturer(@JsonProperty("name")String name,@JsonProperty("id") long id) {
         this.name = name;

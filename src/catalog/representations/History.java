@@ -9,7 +9,7 @@ public class History  {
     private int p_min;
     private int time;
     private String name;
-    private ArrayList<Order> orders;
+   // private ArrayList<Order> orders;
     private int item_sold;
     private ArrayList<Order> ordersWon;
 
@@ -54,10 +54,12 @@ public class History  {
         this.name = name;
     }
 
-
+    /*
     public void setOrders(ArrayList<Order> orders) {
         this.orders = orders;
     }
+
+     */
 
 
     public History(Item p) {
@@ -66,9 +68,9 @@ public class History  {
         this.p_min = p.getP_min();
         this.time = p.getTime();
         this.name = p.getName();
-        for(Order o: p.getOrders()){
-            this.orders.add(o.clone());
-        }
+     //   for(Order o: p.getOrders()){
+     //       this.orders.add(o.clone());
+     //   }
         this.item_sold = p.calculateItemSold();
         this.ordersWon = p.calculateOrdersFinal();
     }
