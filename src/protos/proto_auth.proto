@@ -24,4 +24,6 @@ message Auth {
     
     // 0 - Authenticated; 1 - User Not Found; 2 - Passwords Don't Match
     int32 authenticated = 5;
+
+    int32 notification_port = 6;
 }

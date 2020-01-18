@@ -2,9 +2,9 @@
 -import(manufacturer, [manufacturerStart/2]).
 -import(bot, [manufacturerBot/1]).
 -import(importer, [importerStart/2]).
--export([auth/4]).
+-export([auth/5]).
 
-auth (Credentials, Catalog, ManufacturerQueuePort, ImporterMappingPort) ->
+auth (Credentials, Catalog, ManufacturerQueuePort, ImporterMappingPort, NotificationPort) ->
   receive
     {Sock, TcpHandler, EncodedData} ->
       io:format("BREAKPOINT 0.\n"),
@@ -27,7 +27,7 @@ auth (Credentials, Catalog, ManufacturerQueuePort, ImporterMappingPort) ->
                   'IMPORTER' -> NextPID = spawn(fun() -> importerStart(Catalog, ImporterMappingPort) end)
               end,
               TcpHandler ! {pid, NextPID},
-              ResponseMap = proto_auth:encode_msg(#{username => Username, password => Password, authenticated => 0, type => Role, operation => Operation}, 'Auth'),
+              ResponseMap = proto_auth:encode_msg(#{username => Username, password => Password, authenticated => 0, type => Role, operation => Operation, notification_port => NotificationPort}, 'Auth'),
               gen_tcp:send(Sock, ResponseMap);
             % PASSWORDS DON'T MATCH
             {login_denied} ->
@@ -47,7 +47,7 @@ auth (Credentials, Catalog, ManufacturerQueuePort, ImporterMappingPort) ->
         % REGISTER OPERATION
         %'REGISTER' ->
       end,
-  auth(Credentials, Catalog, ManufacturerQueuePort, ImporterMappingPort)
+  auth(Credentials, Catalog, ManufacturerQueuePort, ImporterMappingPort, NotificationPort)
   end.
 
 login (Credentials, Username, Password) ->

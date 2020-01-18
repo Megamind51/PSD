@@ -6,10 +6,12 @@ import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
+import java.util.HashSet;
 
 import protos.ProtoAuth.Auth;
-import protos.ProtoProduct.Product;
-import protos.ProtoBid.Bid;
+import protos.ProtoManufacturer.ManufacturerRequest;
+import protos.ProtoImporter.ImporterRequest;
+
 
 public class Client {
 
@@ -19,6 +21,8 @@ public class Client {
     private BufferedReader in;
     private SocketChannel socketChannel;
     private ByteBuffer byteBuffer;
+
+    private HashSet<String> subscriptions = new HashSet<>();
 
     public Client(int server) throws Exception {
 
@@ -44,15 +48,49 @@ public class Client {
         System.out.println("Authenticated!");
 
         String option;
-        while (true) {
+        boolean logged_in = true;
 
-            print_menu();
+        while (logged_in) {
 
-            if ((option = in.readLine()).equals("2")) break;
-            else {
+            printMainMenu();
+            option = in.readLine();
 
-                if (type == Auth.Type.MANUFACTURER) publishProduction();
-                else makeBid();
+            switch (type) {
+
+                case MANUFACTURER:
+
+                    switch (option) {
+
+                        case "1":
+                            publishProduct();
+                            break;
+                        case "2":
+                            logged_in = false;
+                            break;
+
+                    }
+
+                    break;
+                case IMPORTER:
+
+                    switch (option) {
+
+                        case "1":
+                            makeBid();
+                            break;
+                        case "2":
+                            dealSubscriptions();
+                            break;
+                        case "3":
+                            checkCatalog();
+                            break;
+                        case "4":
+                            logged_in = false;
+                            break;
+
+                    }
+
+                    break;
 
             }
 
@@ -76,17 +114,11 @@ public class Client {
 
         byte[] data = auth_proto.toByteArray();
 
-        socketChannel.write(ByteBuffer.wrap(data));
+        // Sending TCP binary
+        send(data);
 
-        byteBuffer.clear();
-
-        socketChannel.read(byteBuffer);
-
-        byteBuffer.flip();
-
-        data = new byte[byteBuffer.remaining()];
-
-        byteBuffer.get(data);
+        // Receiving TCP binary
+        data = receive();
 
         auth_proto = Auth.parseFrom(data);
 
@@ -108,17 +140,51 @@ public class Client {
         return false;
     }
 
-    private void print_menu() {
-        System.out.println("#####################################################");
-        if (type == Auth.Type.MANUFACTURER)
-            System.out.println("# 1 - Publicar produção                             #");
-        else
-            System.out.println("# 1 - Fazer oferta                                  #");
-        System.out.println("# 2 - Logout                                        #");
-        System.out.println("#####################################################");
+    private void printMainMenu() {
+
+        switch (type) {
+            case MANUFACTURER:
+                System.out.println("#####################################################");
+                System.out.println("# 1 - Publicar produção                             #");
+                System.out.println("# 2 - Logout                                        #");
+                System.out.println("#####################################################");
+                break;
+            case IMPORTER:
+                System.out.println("#####################################################");
+                System.out.println("# 1 - Fazer oferta                                  #");
+                System.out.println("# 2 - Gerir subscrições                             #");
+                System.out.println("# 3 - Consultar Catálogo                            #");
+                System.out.println("# 4 - Logout                                        #");
+                System.out.println("#####################################################");
+                break;
+        }
+
     }
 
-    private void publishProduction() throws Exception{
+    private void printDealSubscriptionsMenu() throws Exception {
+
+        System.out.println("#####################################################");
+        System.out.println("# 1 - Add subscription                              #");
+        System.out.println("# 2 - Remove subscription                           #");
+        System.out.println("# 3 - List subscriptions                            #");
+        System.out.println("# 4 - Return to main menu                           #");
+        System.out.println("#####################################################");
+
+    }
+
+    private void printCatalogMenu() throws Exception {
+
+        System.out.println("#####################################################");
+        System.out.println("# 1 - List manufacturers                            #");
+        System.out.println("# 2 - List products of manufacturer                 #");
+        System.out.println("# 3 - List current bids of a product                #");
+        System.out.println("# 4 - Check manufacturer history                    #");
+        System.out.println("# 5 - Return to main menu                           #");
+        System.out.println("#####################################################");
+
+    }
+
+    private void publishProduct() throws Exception{
 
         System.out.println("Product Name: ");
         String product = in.readLine();
@@ -135,7 +201,7 @@ public class Client {
         System.out.println("Time period (seconds): ");
         String seconds = in.readLine();
 
-        Product product_proto = Product.newBuilder()
+        ManufacturerRequest product_proto = ManufacturerRequest.newBuilder()
                 .setName(product)
                 .setMinQuantity(Integer.parseInt(min_quantity))
                 .setMaxQuantity(Integer.parseInt(max_quantity))
@@ -145,22 +211,110 @@ public class Client {
 
         byte[] data = product_proto.toByteArray();
 
-        socketChannel.write(ByteBuffer.wrap(data));
+        send(data);
 
-        /*byteBuffer.clear();
+    }
 
-        socketChannel.read(byteBuffer);
+    private void dealSubscriptions () throws Exception {
 
-        byteBuffer.flip();
+        String option;
+        boolean inSubscriptionMenu = true;
 
-        data = new byte[byteBuffer.remaining()];
+        while (inSubscriptionMenu) {
 
-        byteBuffer.get(data);
+            printDealSubscriptionsMenu();
+            option = in.readLine();
 
-        auth_proto = Auth.parseFrom(data) ;
+            switch (option) {
 
-        byteBuffer.clear();*/
+                case "1":
+                    System.out.println("Manufacturer: ");
+                    String manufacturer = in.readLine();
+                    subscriptions.add(manufacturer);
+                    // SUBSCRIBE 0MQ
+                    break;
+                case "2":
+                    System.out.println("Manufacturer to remove: ");
+                    String manufacturerToRemove = in.readLine();
+                    subscriptions.remove(manufacturerToRemove);
+                    // UNSUBSCRIBE 0MQ
+                    break;
+                case "3":
+                    for (String sub: subscriptions) System.out.println(sub);
+                    break;
+                case "4":
+                    inSubscriptionMenu = false;
+                    break;
 
+            }
+        }
+    }
+
+    private void checkCatalog () throws Exception {
+
+        String option;
+        boolean inCatalogMenu = true;
+
+        while (inCatalogMenu) {
+
+            printCatalogMenu();
+            option = in.readLine();
+
+            switch (option) {
+
+                case "1":
+                    ImporterRequest manufacturersRequest = ImporterRequest.newBuilder()
+                                    .setOperation(ImporterRequest.Operation.LIST_MANUFACTURERS)
+                                    .build();
+
+                    send(manufacturersRequest.toByteArray());
+                    break;
+
+                case "2":
+                    System.out.println("Manufacturer: ");
+                    String manufacturerForManufacturerRequests = in.readLine();
+
+                    ImporterRequest productsRequest = ImporterRequest.newBuilder()
+                            .setOperation(ImporterRequest.Operation.LIST_PRODUCTS)
+                            .setManufacturer(manufacturerForManufacturerRequests)
+                            .build();
+
+                    send(productsRequest.toByteArray());
+                    break;
+
+                case "3":
+                    System.out.println("Manufacturer: ");
+                    String manufacturerForBids = in.readLine();
+                    System.out.println("Product: ");
+                    String productForBids = in.readLine();
+
+                    ImporterRequest bidsRequest = ImporterRequest.newBuilder()
+                            .setOperation(ImporterRequest.Operation.LIST_BIDS)
+                            .setManufacturer(manufacturerForBids)
+                            .setProduct(productForBids)
+                            .build();
+
+                    send(bidsRequest.toByteArray());
+                    break;
+
+                case "4":
+                    System.out.println("Manufacturer: ");
+                    String manufacturerForHistory = in.readLine();
+
+                    ImporterRequest historyRequest = ImporterRequest.newBuilder()
+                            .setOperation(ImporterRequest.Operation.CHECK_HISTORY)
+                            .setManufacturer(manufacturerForHistory)
+                            .build();
+
+                    send(historyRequest.toByteArray());
+                    break;
+
+                case "5":
+                    inCatalogMenu = false;
+                    break;
+
+            }
+        }
     }
 
     private void makeBid() throws Exception {
@@ -177,153 +331,38 @@ public class Client {
         System.out.println("Price: ");
         String price = in.readLine();
 
-        Bid.newBuilder()
+        ImporterRequest importerRequest = ImporterRequest.newBuilder()
+                .setOperation(ImporterRequest.Operation.MAKE_BID)
                 .setManufacturer(manufacturer)
                 .setProduct(product)
                 .setQuantity(Integer.parseInt(quantity))
                 .setPrice(Float.parseFloat(price))
                 .build();
 
+        send(importerRequest.toByteArray());
     }
 
-    /*
-        public void startCliente() throws IOException {
+    private void send(byte[] data) throws Exception {
 
+        socketChannel.write(ByteBuffer.wrap(data));
 
+    }
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-            String msg;
-            int resultado = 0;
+    private byte[] receive() throws Exception {
 
+        byteBuffer.clear();
 
-            while (true) {
-                print_menu();
-                if ((msg = in.readLine()).toUpperCase().equals("EXIT")) break;
-                try {
-                    resultado = Integer.parseInt(msg);
-                    switch (resultado) {
-                        case 1:
-                            send_post(in);
-                            break;
-                        case 2:
-                            deal_subscriptions(in);
-                            break;
-                        case 3:
-                            list_posts();
-                            break;
-                        case 4:
-                            get_username(in);
-                            break;
-                        default:
-                            System.out.println("Opcao invalida");
-                    }
-                    //tipo_menu = resultado;
+        socketChannel.read(byteBuffer);
 
-                } catch (Exception e) {
-                    System.out.println("Formato invalido");
-                    ;
-                }
+        byteBuffer.flip();
 
-            }
-        }
+        byte[] data = new byte[byteBuffer.remaining()];
 
-        private void deal_subscriptions(BufferedReader in) {
-            String msg;
-            int lido;
+        byteBuffer.get(data);
 
+        return data;
 
-            while (true) {
-                try {
-                    print_deal_subscriptions();
-                    msg = in.readLine();
-                    lido = Integer.parseInt(msg);
-                    if (lido == 4) break;
-                    switch (lido) {
-                        case 1:
-                            System.out.println("Inserir Categoria");
-                            msg = in.readLine();
-                            categories.add("#" + msg);
-                            break;
-                        case 2:
-                            System.out.println("Categoria a remover");
-                            msg = in.readLine();
-                            if (categories.contains("#" + msg)) {
-                                categories.remove(categories.indexOf("#" + msg));
-                            } else {
-                                System.out.println("Categoria não subscrita");
-                                System.out.println("Categorias subscritas são");
-                                print_categories();
-                            }
-                            break;
-                        case 3:
-                            print_categories();
-                    }
-
-                } catch (IOException ex) {
-                    System.out.println("Por favor utilizador formato valido");
-                }
-
-            }
-        }
-
-        private void print_deal_subscriptions() {
-            System.out.println("#####################################################");
-            System.out.println("# 1 - Adicionar subscricao                          #");
-            System.out.println("# 2 - Remover subscricoes                           #");
-            System.out.println("# 3 - Listar subscricoes                            #");
-            System.out.println("# 4 - Voltar menu inicial                           #");
-            System.out.println("#####################################################");
-        }
-
-        private void print_categories() {
-            System.out.println(categories.toString());
-        }
-
-        public void send_post(BufferedReader in ){
-                System.out.println("Escreva o post:");
-                try {
-                    String mensagem = in.readLine();
-                    System.out.println("Categorias");
-                    ArrayList<String> arrayList = new ArrayList<String>();
-                    Matcher m = Pattern.compile("#[-_'a-zA-ZÀ-ÖØ-öø-ÿ0-9]*")
-                            .matcher(mensagem);
-                    while (m.find()) {
-                        arrayList.add(m.group());
-                    }
-                    for (String cena : arrayList)
-                        System.out.println(1);
-                    if( arrayList.size() < 1){
-                        System.out.println("Necessário pelo menos 1 categoria");
-
-                    }else{
-                        int id = counter.increment();
-                        Post post = new Post(mensagem, arrayList, username, id );
-                        byte[] data = post_serializer.encode(post);
-                        System.out.println(servidor.toString());
-                        System.out.println("->" + post.toString());
-                        this.log.writeLog("POST " + post.toString() + " " + servidor.port(),id);
-                        messagingService.sendAsync(servidor, "POST", data);
-                }
-
-            } catch (IOException e) {
-                System.out.println("Formato invalido");
-            }
-
-        }
-
-        public void list_posts() {
-            if (categories.size() == 0) {
-                System.out.println("Sem categorias selecionadas");
-            } else {
-                Get get = new Get(categories, counter.increment());
-
-                byte[] data = get_serializer.encode(get);
-                System.out.println("Esperar pela resposta do servidor");
-                messagingService.sendAsync(servidor, "GET", data);
-
-            }
-        }
-    */
+    }
 
     public static void main(String[] args) throws Exception {
 

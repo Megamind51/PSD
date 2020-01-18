@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+message ImporterRequest {
+
+    enum Operation {
+
+        MAKE_BID = 0;
+        LIST_MANUFACTURERS = 1;
+        LIST_PRODUCTS = 2;
+        LIST_BIDS = 3;
+        CHECK_HISTORY = 4;
+
+    }
+
+    Operation operation = 1;
+    string manufacturer = 2;
+    string importer = 3;
+    string product = 4;
+    int32 quantity = 5;
+    float price = 6;
+
+}
