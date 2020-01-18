@@ -1,10 +1,10 @@
 -module(auth).
--import(manufacturer, [manufacturer/1]).
+-import(manufacturer, [manufacturerStart/2]).
 -import(bot, [manufacturerBot/1]).
--import(importer, [importer/1]).
--export([auth/2]).
+-import(importer, [importerStart/2]).
+-export([auth/4]).
 
-auth (Credentials, Catalog) ->
+auth (Credentials, Catalog, ManufacturerQueuePort, ImporterMappingPort) ->
   receive
     {Sock, TcpHandler, EncodedData} ->
       io:format("BREAKPOINT 0.\n"),
@@ -23,12 +23,12 @@ auth (Credentials, Catalog) ->
             {login_granted, Role} ->
               io:format("LOGIN GRANTED.\n"),
               case Role of
-                  'MANUFACTURER' -> NextPID = spawn(fun() -> manufacturerBot(Catalog) end);
-                  'IMPORTER' -> NextPID = spawn(fun() -> importer(Catalog) end)
+                  'MANUFACTURER' -> NextPID = spawn(fun() -> manufacturerStart(Catalog, ManufacturerQueuePort) end);
+                  'IMPORTER' -> NextPID = spawn(fun() -> importerStart(Catalog, ImporterMappingPort) end)
               end,
-              TcpHandler ! NextPID,
+              TcpHandler ! {pid, NextPID},
               ResponseMap = proto_auth:encode_msg(#{username => Username, password => Password, authenticated => 0, type => Role, operation => Operation}, 'Auth'),
-                gen_tcp:send(Sock, ResponseMap);
+              gen_tcp:send(Sock, ResponseMap);
             % PASSWORDS DON'T MATCH
             {login_denied} ->
               io:format("LOGIN DENIED.\n"),
@@ -47,7 +47,7 @@ auth (Credentials, Catalog) ->
         % REGISTER OPERATION
         %'REGISTER' ->
       end,
-  auth(Credentials, Catalog)
+  auth(Credentials, Catalog, ManufacturerQueuePort, ImporterMappingPort)
   end.
 
 login (Credentials, Username, Password) ->

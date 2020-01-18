@@ -1,11 +1,11 @@
 -module(frontend).
--import(auth, [auth/2]).
+-import(auth, [auth/4]).
 -import(catalog, [catalog/1]).
--export([start/1]).
+-export([start/3]).
 
-start(Port) ->
+start(Port, ManufacturerQueuePort, ImporterMapperPort) ->
   CatalogManager = spawn(fun() -> catalog(#{}) end),
-  LoginManager = spawn(fun() -> auth(#{"m0" => {'MANUFACTURER', "pm0"}, "i0" => {'IMPORTER', "pi0"}}, CatalogManager) end),
+  LoginManager = spawn(fun() -> auth(#{"m0" => {'MANUFACTURER', "pm0"}, "i0" => {'IMPORTER', "pi0"}}, CatalogManager, ManufacturerQueuePort, ImporterMapperPort) end),
   {ok, LSock} = gen_tcp:listen(Port, [binary, {packet, 0}, {reuseaddr, true}, {active, true}]),
   acceptor(LSock, LoginManager).
 
@@ -22,8 +22,8 @@ tcp_handler(Sock, Pid) ->
       Pid ! {Sock, self(), EncodedData},
       tcp_handler(Sock, Pid);
     {tcp_closed, _} ->
-      io:format("Connection closed.\n");
+      io:format("Connection closed.~n");
     {tcp_error, _, _} ->
-      io:format("TCP Error ocurred.\n"),
+      io:format("TCP Error ocurred.~n"),
       tcp_handler(Sock, Pid)
   end.
