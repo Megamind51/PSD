@@ -1,4 +1,4 @@
-package catalog.models;
+package catalog.representations;
 
 public class Bid {
 
