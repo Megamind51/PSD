@@ -15,6 +15,20 @@
     <dropwizard.version>0.7.1</dropwizard.version>
   </properties>
 
+  <!-- If you can't find the latest snapshot -->
+  <repositories>
+    <repository>
+      <id>sonatype-nexus-snapshots</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
   <dependencies>
     <dependency>
       <groupId>javax.xml.bind</groupId>
@@ -37,6 +51,13 @@
       <artifactId>dropwizard-core</artifactId>
       <version>${dropwizard.version}</version>
     </dependency>
+
+      <dependency>
+        <groupId>org.zeromq</groupId>
+        <artifactId>jeromq</artifactId>
+        <version>0.5.1</version>
+      </dependency>
+
   </dependencies>
 
   <build>
@@ -102,3 +123,4 @@
   </build>
 
 </project>
+
