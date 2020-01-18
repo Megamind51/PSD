@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+message Product {
+
+    string name = 1;
+    int32 min_quantity = 2;
+    int32 max_quantity = 3;
+    float min_price = 4;
+    int32 seconds = 5;
+
+    // 0 - Authenticated; 1 - User Not Found; 2 - Passwords Don't Match
+    // int32 result = 5;
+}
