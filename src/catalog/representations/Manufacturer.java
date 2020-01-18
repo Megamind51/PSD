@@ -5,13 +5,14 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Manufacturer {
 
     private String name;
     private long id;
-    private ArrayList<Item> items;
-    private ArrayList<History> history;
+    private HashMap<String,Item> items;
+    private HashMap<String,History> history;
 
 
     @JsonProperty
@@ -30,22 +31,26 @@ public class Manufacturer {
     }
 
     @JsonProperty
-    public ArrayList<Item> getItems() {
+    public HashMap<String,Item> getItems() {
         return items;
     }
 
+    public Item getItem(String nameProduct){
+        return this.items.get(nameProduct);
+    }
+
     @JsonProperty
-    public void setItems(ArrayList<Item> items) {
+    public void setItems(HashMap<String,Item> items) {
         this.items = items;
     }
 
     @JsonProperty
-    public ArrayList<History> getHistory() {
+    public HashMap<String,History> getHistory() {
         return history;
     }
 
     @JsonProperty
-    public void setHistory(ArrayList<History> history) {
+    public void setHistory(HashMap<String,History> history) {
         this.history = history;
     }
 
@@ -54,12 +59,15 @@ public class Manufacturer {
         this.name = name;
     }
 
+    public void addItem(Item item){
+        this.items.put(item.getName(),item);
+    }
 
     @JsonCreator
     public Manufacturer(@JsonProperty("name")String name,@JsonProperty("id") long id) {
         this.name = name;
         this.id=id;
-        this.items = new ArrayList<Item>();
-        this.history = new ArrayList<History>();
+        this.items = new HashMap<>();
+        this.history = new HashMap<>();
     }
 }

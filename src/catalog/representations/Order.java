@@ -1,29 +1,44 @@
 package catalog.representations;
 
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Order {
-    private int idUser;
-    private int idItem;
+    private String nameUser;
+//    private String nameManu;
+//    private String nameItem;
     private int itemAmount;
     private int itemPrice;
 
-
-    public int getIdUser() {
-        return idUser;
+    @JsonProperty
+    public String getNameUser() {
+        return nameUser;
     }
 
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
+    public void setNameUser(String nameUser) {
+        this.nameUser = nameUser;
     }
 
-    public int getIdItem() {
-        return idItem;
+    /*
+    public String getNameManu() {
+        return nameManu;
     }
 
-    public void setIdItem(int idItem) {
-        this.idItem = idItem;
+    public void setNameManu(String nameManu) {
+        this.nameManu = nameManu;
     }
 
+    public String getNameItem() {
+        return nameItem;
+    }
+
+    public void setNameItem(String nameItem) {
+        this.nameItem = nameItem;
+    }
+
+     */
+    @JsonProperty
     public int getItemAmount() {
         return itemAmount;
     }
@@ -32,6 +47,7 @@ public class Order {
         this.itemAmount = itemAmount;
     }
 
+    @JsonProperty
     public int getItemPrice() {
         return itemPrice;
     }
@@ -40,15 +56,17 @@ public class Order {
         this.itemPrice = itemPrice;
     }
 
-    public Order(int idUser, int idItem, int itemAmount, int itemPrice) {
-        this.idUser = idUser;
-        this.idItem = idItem;
+    @JsonCreator
+    public Order(@JsonProperty("nameUser") String nameUser, /*String nameManu, String nameItem,*/ @JsonProperty("itemAmount") int itemAmount,@JsonProperty("itemPrice") int itemPrice) {
+        this.nameUser = nameUser;
+     /*   this.nameManu = nameManu;
+        this.nameItem = nameItem; */
         this.itemAmount = itemAmount;
         this.itemPrice = itemPrice;
     }
 
     public Order clone(){
-        return new Order(this.idUser,this.idItem,this.itemAmount,this.itemPrice);
+        return new Order(this.nameUser,/*this.nameManu,this.nameItem,*/this.itemAmount,this.itemPrice);
     }
 
 

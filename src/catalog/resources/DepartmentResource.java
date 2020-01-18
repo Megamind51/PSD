@@ -6,11 +6,13 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import catalog.representations.Order;
 import com.codahale.metrics.annotation.Timed;
 import catalog.representations.Item;
 import catalog.representations.Manufacturer;
 import catalog.representations.Bid;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,11 +55,37 @@ public class DepartmentResource {
     @GET
     @Timed
     @Path("/{name}")
-    public Response get(@PathParam("name") String name) {
+    public Response getManu(@PathParam("name") String name) {
         Manufacturer m = this.manufacturers.get(name);
         if (m == null)
             throw new WebApplicationException(Response.Status.NOT_FOUND);
         return Response.ok(m).build();
+    }
+
+
+    //todos os items de um manu
+    @GET
+    @Timed
+    @Path("/produtos/{name}")
+    public Response getManuItems(@PathParam("name") String name) {
+        Collection v;
+        Manufacturer m = this.manufacturers.get(name);
+        if (m == null)
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        v = m.getItems().keySet();
+        return Response.ok(v).build();
+    }
+
+    //dados de um item de um manu
+    @GET
+    @Timed
+    @Path("/{name}/{nameP}")
+    public Response getManuItemInfo(@PathParam("name") String name,@PathParam("nameP") String nameP) {
+        Manufacturer m = this.manufacturers.get(name);
+        if (m == null)
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        Item item = m.getItem(nameP);
+        return Response.ok(item).build();
     }
 
 
@@ -79,7 +107,7 @@ public class DepartmentResource {
     }
 
     @PUT
-    public Response postManufacturer(@NotNull @Valid Manufacturer man){
+    public Response addManufacturer(@NotNull @Valid Manufacturer man){
         System.out.println("MANUF: " + man.getName() + man.getId());
         long id = counter.incrementAndGet();
         man.setId(id);
@@ -88,20 +116,30 @@ public class DepartmentResource {
         return Response.ok(man).build();
     }
 
-/*
-    @PUT
-    @Path("/{name}/add")
-    public Response postItem(@PathParam("name") String name,@NotNull @Valid Item man){
-        if(this.manufacturers.containsKey(name)){
-            this.manufacturers.get(name).
-            this.manufacturers.put(man.getName(),man);
 
-            return Response.ok(man).build();
+    @PUT
+    @Path("/{name}/add/")
+    public Response addItem(@PathParam("name") String name,@NotNull @Valid Item item){
+        if(this.manufacturers.containsKey(name)){
+            this.manufacturers.get(name).addItem(item);
+            return Response.ok(item).build();
         }
         else throw new WebApplicationException(Response.Status.NOT_FOUND);
 
     }
-*/
+
+    @PUT
+    @Path("/{name}/addBid/{nameP}")
+    public Response addBid(@PathParam("name") String name,@PathParam("nameP") String nameProd,@NotNull @Valid Order order){
+        if(this.manufacturers.containsKey(name)){
+            this.manufacturers.get(name).getItem(nameProd).addOrder(order);
+            return Response.ok(order).build();
+        }
+        else throw new WebApplicationException(Response.Status.NOT_FOUND);
+
+    }
+
+
 
     //---------------DELETE's
 
@@ -115,6 +153,8 @@ public class DepartmentResource {
         this.manufacturers.remove(name);
         return Response.ok().build();
     }
+
+
 
     /*
     @PUT

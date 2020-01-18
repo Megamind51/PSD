@@ -8,7 +8,7 @@ public class History  {
     private int q_max;
     private int p_min;
     private int time;
-    private int id;
+    private String name;
     private ArrayList<Order> orders;
     private int item_sold;
     private ArrayList<Order> ordersWon;
@@ -46,12 +46,12 @@ public class History  {
         this.time = time;
     }
 
-    public int getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setName(String name) {
+        this.name = name;
     }
 
 
@@ -65,12 +65,12 @@ public class History  {
         this.q_max = p.getQ_max();
         this.p_min = p.getP_min();
         this.time = p.getTime();
-        this.id = p.getId();
+        this.name = p.getName();
         for(Order o: p.getOrders()){
             this.orders.add(o.clone());
         }
-        this.item_sold = p.getItemSold();
-        this.ordersWon = p.getOrdersFinal();
+        this.item_sold = p.calculateItemSold();
+        this.ordersWon = p.calculateOrdersFinal();
     }
 
 
