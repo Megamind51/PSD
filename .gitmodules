@@ -1,0 +1,3 @@
+[submodule "dependencies/gpb"]
+	path = dependencies/gpb
+	url = https://github.com/tomas-abrahamsson/gpb.git
