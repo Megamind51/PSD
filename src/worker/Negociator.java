@@ -8,8 +8,8 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
-import protos.ProtoBid;
-import protos.ProtoProduct;
+import protos.ProtoImporter;
+import protos.ProtoManufacturer;
 
 
 import java.util.ArrayList;
@@ -57,9 +57,9 @@ class Thread_Pull extends Thread{
     public void run() {
         while(true){
             byte[] b = this.pull.recv();
-            ProtoProduct.Product product = null;
+            ProtoManufacturer.ManufacturerRequest product = null;
             try {
-                product = ProtoProduct.Product.parseFrom(b);
+                product = ProtoManufacturer.ManufacturerRequest.parseFrom(b);
             } catch (InvalidProtocolBufferException e) {
                 e.printStackTrace();
             }
@@ -86,9 +86,9 @@ class Thread_Sub extends Thread{
         while(true){
             System.out.println("A espera de outro SUB");
             byte[] b = this.sub.recv();
-            ProtoBid.Bid bid = null;
+            ProtoImporter.ImporterRequest bid = null;
             try {
-                bid = ProtoBid.Bid.parseFrom(b);
+                bid = ProtoImporter.ImporterRequest.parseFrom(b);
             } catch (InvalidProtocolBufferException e) {
                 e.printStackTrace();
             }
