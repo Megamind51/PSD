@@ -2,9 +2,47 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="14dca174-1d90-4f14-9375-e81d30454f33" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/worker/Negociator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/worker/BidMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/worker/Proxy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Company.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Company.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependencies/chumak/.rebar/erlcinfo" beforeDir="false" afterPath="$PROJECT_DIR$/dependencies/chumak/.rebar/erlcinfo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/.rebar3/erlcinfo" beforeDir="false" afterPath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/.rebar3/erlcinfo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak.beam" beforeDir="false" afterPath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak.beam" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_bind.beam" beforeDir="false" afterPath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_bind.beam" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_cert.beam" beforeDir="false" afterPath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_cert.beam" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_command.beam" beforeDir="false" afterPath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_command.beam" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_curve.beam" beforeDir="false" afterPath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_curve.beam" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_curve_if.beam" beforeDir="false" afterPath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_curve_if.beam" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_dealer.beam" beforeDir="false" afterPath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_dealer.beam" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_lb.beam" beforeDir="false" afterPath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_lb.beam" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_lbs.beam" beforeDir="false" afterPath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_lbs.beam" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_pair.beam" beforeDir="false" afterPath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_pair.beam" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_pattern.beam" beforeDir="false" afterPath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_pattern.beam" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_peer.beam" beforeDir="false" afterPath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_peer.beam" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_protocol.beam" beforeDir="false" afterPath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_protocol.beam" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_pub.beam" beforeDir="false" afterPath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_pub.beam" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_pull.beam" beforeDir="false" afterPath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_pull.beam" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_push.beam" beforeDir="false" afterPath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_push.beam" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_rep.beam" beforeDir="false" afterPath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_rep.beam" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_req.beam" beforeDir="false" afterPath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_req.beam" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_resource.beam" beforeDir="false" afterPath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_resource.beam" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_router.beam" beforeDir="false" afterPath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_router.beam" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_socket.beam" beforeDir="false" afterPath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_socket.beam" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_sub.beam" beforeDir="false" afterPath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_sub.beam" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_subscriptions.beam" beforeDir="false" afterPath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_subscriptions.beam" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_sup.beam" beforeDir="false" afterPath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_sup.beam" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_xpub.beam" beforeDir="false" afterPath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_xpub.beam" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_xsub.beam" beforeDir="false" afterPath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_xsub.beam" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_z85.beam" beforeDir="false" afterPath="$PROJECT_DIR$/dependencies/chumak/_build/default/lib/chumak/ebin/chumak_z85.beam" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependencies/chumak/rebar3" beforeDir="false" afterPath="$PROJECT_DIR$/dependencies/chumak/rebar3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependencies/protobuf/bin/protoc" beforeDir="false" afterPath="$PROJECT_DIR$/dependencies/protobuf/bin/protoc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/auth.erl" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/auth.erl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/frontend.erl" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/frontend.erl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/importer.erl" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/importer.erl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontend/manufacturer.erl" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/manufacturer.erl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/worker/Negociator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/worker/Negociator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,10 +78,11 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/Client" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../ZeroMQ" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/zeromq" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="restartRequiresConfirmation" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -52,11 +91,39 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Compound.Unnamed">
+  <component name="RunManager" selected="Application.Client (1)">
+    <configuration name="BidMapper" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="worker.BidMapper" />
+      <module name="Company" />
+      <option name="PROGRAM_PARAMETERS" value="10021 10020" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="worker.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="CatalogApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="CatalogApplication" />
       <module name="Company" />
       <option name="PROGRAM_PARAMETERS" value="server " />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Client (1)" type="Application" factoryName="Application" singleton="false" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="client.Client" />
+      <module name="Company" />
+      <option name="PROGRAM_PARAMETERS" value="10001" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="client.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -68,6 +135,20 @@
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="company.Client.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Negociator" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="worker.Negociator" />
+      <module name="Company" />
+      <option name="PROGRAM_PARAMETERS" value="10010 10020 10030" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="worker.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -174,13 +255,10 @@
       </method>
     </configuration>
     <configuration name="Unnamed" type="CompoundRunConfigurationType">
+      <toRun name="BidMapper" type="Application" />
+      <toRun name="Negociator" type="Application" />
+      <toRun name="Client (1)" type="Application" />
       <toRun name="Queue(Pull/Push proxy)" type="Application" />
-      <toRun name="PullNegociator" type="Application" />
-      <toRun name="PullNegociator (4)" type="Application" />
-      <toRun name="PusherTest" type="Application" />
-      <toRun name="PullNegociator (2)" type="Application" />
-      <toRun name="PullNegociator (3)" type="Application" />
-      <toRun name="PullNegociator (1)" type="Application" />
       <method v="2" />
     </configuration>
     <configuration default="true" type="CompoundRunConfigurationType">
@@ -202,6 +280,9 @@
       <item itemvalue="Application.PullNegociator (3)" />
       <item itemvalue="Application.PullNegociator (2)" />
       <item itemvalue="Application.PullNegociator (1)" />
+      <item itemvalue="Application.BidMapper" />
+      <item itemvalue="Application.Negociator" />
+      <item itemvalue="Application.Client (1)" />
       <item itemvalue="Application.CatalogApplication" />
       <item itemvalue="Compound.Unnamed" />
     </list>
@@ -236,7 +317,18 @@
     </task>
     <servers />
   </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.erl" />
+  </component>
   <component name="WindowStateProjectService">
+    <state x="342" y="67" width="671" height="659" key="#BidMapper" timestamp="1579370374078">
+      <screen x="0" y="27" width="1366" height="741" />
+    </state>
+    <state x="342" y="67" width="671" height="659" key="#BidMapper/0.27.1366.741@0.27.1366.741" timestamp="1579370374078" />
+    <state x="342" y="67" width="671" height="659" key="#Client_(1)" timestamp="1579370781859">
+      <screen x="0" y="27" width="1366" height="741" />
+    </state>
+    <state x="342" y="67" width="671" height="659" key="#Client_(1)/0.27.1366.741@0.27.1366.741" timestamp="1579370781859" />
     <state x="342" y="67" width="671" height="659" key="#PusherTest" timestamp="1579361234438">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
@@ -249,34 +341,50 @@
     </state>
     <state x="342" y="67" width="671" height="659" key="#Queue(Pull/Push_proxy)/0.27.1366.741@0.27.1366.741" timestamp="1579358548095" />
     <state x="342" y="67" width="671" height="659" key="#Queue/0.27.1366.741@0.27.1366.741" timestamp="1579358236517" />
-    <state x="141" y="54" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1579362420717">
+    <state x="122" y="84" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1579392790607">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
-    <state x="141" y="54" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.27.1366.741@0.27.1366.741" timestamp="1579362420717" />
-    <state x="491" y="109" width="374" height="575" key="#com.intellij.ide.util.MemberChooser" timestamp="1579299318832">
+    <state x="122" y="84" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.27.1366.741@0.27.1366.741" timestamp="1579392790607" />
+    <state x="491" y="109" width="374" height="575" key="#com.intellij.ide.util.MemberChooser" timestamp="1579373134699">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
-    <state x="491" y="109" width="374" height="575" key="#com.intellij.ide.util.MemberChooser/0.27.1366.741@0.27.1366.741" timestamp="1579299318832" />
-    <state x="466" y="154" width="424" height="484" key="FileChooserDialogImpl" timestamp="1579357563765">
+    <state x="491" y="109" width="374" height="575" key="#com.intellij.ide.util.MemberChooser/0.27.1366.741@0.27.1366.741" timestamp="1579373134699" />
+    <state x="466" y="154" width="424" height="484" key="FileChooserDialogImpl" timestamp="1579370000860">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
-    <state x="466" y="154" width="424" height="484" key="FileChooserDialogImpl/0.27.1366.741@0.27.1366.741" timestamp="1579357563765" />
-    <state width="1320" height="175" key="GridCell.Tab.0.bottom" timestamp="1579362390858">
+    <state x="466" y="154" width="424" height="484" key="FileChooserDialogImpl/0.27.1366.741@0.27.1366.741" timestamp="1579370000860" />
+    <state width="1320" height="150" key="GridCell.Tab.0.bottom" timestamp="1579392386347">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
-    <state width="1320" height="175" key="GridCell.Tab.0.bottom/0.27.1366.741@0.27.1366.741" timestamp="1579362390858" />
-    <state width="1320" height="175" key="GridCell.Tab.0.center" timestamp="1579362390855">
+    <state width="1320" height="150" key="GridCell.Tab.0.bottom/0.27.1366.741@0.27.1366.741" timestamp="1579392386347" />
+    <state width="1320" height="150" key="GridCell.Tab.0.center" timestamp="1579392386346">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
-    <state width="1320" height="175" key="GridCell.Tab.0.center/0.27.1366.741@0.27.1366.741" timestamp="1579362390855" />
-    <state width="1320" height="175" key="GridCell.Tab.0.left" timestamp="1579362390855">
+    <state width="1320" height="150" key="GridCell.Tab.0.center/0.27.1366.741@0.27.1366.741" timestamp="1579392386346" />
+    <state width="1320" height="150" key="GridCell.Tab.0.left" timestamp="1579392386345">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
-    <state width="1320" height="175" key="GridCell.Tab.0.left/0.27.1366.741@0.27.1366.741" timestamp="1579362390855" />
-    <state width="1320" height="175" key="GridCell.Tab.0.right" timestamp="1579362390856">
+    <state width="1320" height="150" key="GridCell.Tab.0.left/0.27.1366.741@0.27.1366.741" timestamp="1579392386345" />
+    <state width="1320" height="150" key="GridCell.Tab.0.right" timestamp="1579392386346">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
-    <state width="1320" height="175" key="GridCell.Tab.0.right/0.27.1366.741@0.27.1366.741" timestamp="1579362390856" />
+    <state width="1320" height="150" key="GridCell.Tab.0.right/0.27.1366.741@0.27.1366.741" timestamp="1579392386346" />
+    <state width="1320" height="219" key="GridCell.Tab.1.bottom" timestamp="1579392111210">
+      <screen x="0" y="27" width="1366" height="741" />
+    </state>
+    <state width="1320" height="219" key="GridCell.Tab.1.bottom/0.27.1366.741@0.27.1366.741" timestamp="1579392111210" />
+    <state width="1320" height="219" key="GridCell.Tab.1.center" timestamp="1579392111210">
+      <screen x="0" y="27" width="1366" height="741" />
+    </state>
+    <state width="1320" height="219" key="GridCell.Tab.1.center/0.27.1366.741@0.27.1366.741" timestamp="1579392111210" />
+    <state width="1320" height="219" key="GridCell.Tab.1.left" timestamp="1579392111209">
+      <screen x="0" y="27" width="1366" height="741" />
+    </state>
+    <state width="1320" height="219" key="GridCell.Tab.1.left/0.27.1366.741@0.27.1366.741" timestamp="1579392111209" />
+    <state width="1320" height="219" key="GridCell.Tab.1.right" timestamp="1579392111210">
+      <screen x="0" y="27" width="1366" height="741" />
+    </state>
+    <state width="1320" height="219" key="GridCell.Tab.1.right/0.27.1366.741@0.27.1366.741" timestamp="1579392111210" />
     <state x="216" y="54" width="924" height="684" key="Maven.ArtifactSearchDialog" timestamp="1579109118924">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
@@ -293,9 +401,13 @@
       <screen x="0" y="27" width="1366" height="741" />
     </state>
     <state x="339" y="224" key="com.intellij.ide.util.TipDialog/0.27.1366.741@0.27.1366.741" timestamp="1579362121927" />
-    <state x="451" y="316" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1579111302424">
+    <state x="451" y="316" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1579387799802">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
-    <state x="451" y="316" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.27.1366.741@0.27.1366.741" timestamp="1579111302424" />
+    <state x="451" y="316" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.27.1366.741@0.27.1366.741" timestamp="1579387799802" />
+    <state x="347" y="175" key="run.anything.popup" timestamp="1579377570662">
+      <screen x="0" y="27" width="1366" height="741" />
+    </state>
+    <state x="347" y="175" key="run.anything.popup/0.27.1366.741@0.27.1366.741" timestamp="1579377570662" />
   </component>
 </project>
