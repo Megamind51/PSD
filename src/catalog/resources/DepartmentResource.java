@@ -29,13 +29,17 @@ public class DepartmentResource {
     private final AtomicLong counter;
 
     public DepartmentResource() {
+
         this.defaultName = "Nome teste";
         this.manufacturers = new ConcurrentHashMap<>();
-        //   this.manufacturers.put("Mano bonito", new Manufacturer( "Mano bonito",1));
+
+
         //   this.manufacturers.put("Mano feio", new Manufacturer( "Mano feio",2));
         //   this.manufacturers.put("Mano meio", new Manufacturer( "Mano meio",3));
         //  this.negociations = new HashMap<>();
         this.counter = new AtomicLong();
+        long id = counter.incrementAndGet();
+        this.manufacturers.put("m0", new Manufacturer( "m0",id));
     }
 
     //---------------------------Rotas de Manufacturers
