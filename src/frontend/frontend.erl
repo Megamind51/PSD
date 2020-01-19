@@ -7,6 +7,7 @@ start(Port, ManufacturerQueuePort, ImporterMapperPort, NotificationPort) ->
   CatalogManager = spawn(fun() -> catalog(#{}) end),
   LoginManager = spawn(fun() -> auth(#{"m0" => {'MANUFACTURER', "pm0"}, "i0" => {'IMPORTER', "pi0"}}, CatalogManager, ManufacturerQueuePort, ImporterMapperPort, NotificationPort) end),
   {ok, LSock} = gen_tcp:listen(Port, [binary, {packet, 0}, {reuseaddr, true}, {active, true}]),
+  application:start(chumak),
   acceptor(LSock, LoginManager).
 
 acceptor(LSock, LoginManager) ->

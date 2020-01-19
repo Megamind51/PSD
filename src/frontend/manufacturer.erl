@@ -2,7 +2,6 @@
 -export([manufacturerStart/2]).
 
 manufacturerStart(Catalog, ManufacturerQueuePort) ->
-  ok = application:start(chumak),
   {ok, Socket} = chumak:socket(push),
   {ok, _BindPid} = chumak:connect(Socket, tcp, "localhost", ManufacturerQueuePort),
   manufacturer(Catalog, Socket).
