@@ -9,8 +9,8 @@ public class NotificationHandler {
         ZMQ.Context context = ZMQ.context(1);
         ZMQ.Socket pubs = context.socket(SocketType.XSUB);
         ZMQ.Socket subs = context.socket(SocketType.XPUB);
-        System.out.println(pubs.bind("tcp://*:10000"));
-        System.out.println(subs.bind("tcp://*:10001"));
+        System.out.println(pubs.bind("tcp://*:" + args[1]));
+        System.out.println(subs.bind("tcp://*:" + args[0]));
         ZMQ.proxy(pubs,subs,null);
         //new Proxy(context, pubs, subs).poll();
 
