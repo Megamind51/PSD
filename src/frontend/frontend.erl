@@ -1,11 +1,10 @@
 -module(frontend).
--import(auth, [auth/5]).
+-import(auth, [auth/4]).
 -import(catalog, [catalog/1]).
 -export([start/4]).
 
 start(Port, ManufacturerQueuePort, ImporterMapperPort, NotificationPort) ->
-  CatalogManager = spawn(fun() -> catalog(#{}) end),
-  LoginManager = spawn(fun() -> auth(#{"m0" => {'MANUFACTURER', "pm0"}, "i0" => {'IMPORTER', "pi0"}}, CatalogManager, ManufacturerQueuePort, ImporterMapperPort, NotificationPort) end),
+  LoginManager = spawn(fun() -> auth(#{"m0" => {'MANUFACTURER', "pm0"}, "i0" => {'IMPORTER', "pi0"}}, ManufacturerQueuePort, ImporterMapperPort, NotificationPort) end),
   {ok, LSock} = gen_tcp:listen(Port, [binary, {packet, 0}, {reuseaddr, true}, {active, true}]),
   application:start(chumak),
   acceptor(LSock, LoginManager).

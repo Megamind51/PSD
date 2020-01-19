@@ -51,11 +51,12 @@
 
 %% message types
 -type 'ManufacturerRequest'() ::
-      #{name                    => iodata(),        % = 1
-        min_quantity            => integer(),       % = 2, 32 bits
-        max_quantity            => integer(),       % = 3, 32 bits
-        min_price               => float() | integer() | infinity | '-infinity' | nan, % = 4
-        seconds                 => integer()        % = 5, 32 bits
+      #{manufacturer            => iodata(),        % = 1
+        product                 => iodata(),        % = 2
+        min_quantity            => integer(),       % = 3, 32 bits
+        max_quantity            => integer(),       % = 4, 32 bits
+        min_price               => float() | integer() | infinity | '-infinity' | nan, % = 5
+        seconds                 => integer()        % = 6, 32 bits
        }.
 
 -export_type(['ManufacturerRequest'/0]).
@@ -85,7 +86,7 @@ encode_msg_ManufacturerRequest(Msg, TrUserData) ->
 encode_msg_ManufacturerRequest(#{} = M, Bin,
 			       TrUserData) ->
     B1 = case M of
-	   #{name := F1} ->
+	   #{manufacturer := F1} ->
 	       begin
 		 TrF1 = id(F1, TrUserData),
 		 case is_empty_string(TrF1) of
@@ -97,18 +98,19 @@ encode_msg_ManufacturerRequest(#{} = M, Bin,
 	   _ -> Bin
 	 end,
     B2 = case M of
-	   #{min_quantity := F2} ->
+	   #{product := F2} ->
 	       begin
 		 TrF2 = id(F2, TrUserData),
-		 if TrF2 =:= 0 -> B1;
-		    true ->
-			e_type_int32(TrF2, <<B1/binary, 16>>, TrUserData)
+		 case is_empty_string(TrF2) of
+		   true -> B1;
+		   false ->
+		       e_type_string(TrF2, <<B1/binary, 18>>, TrUserData)
 		 end
 	       end;
 	   _ -> B1
 	 end,
     B3 = case M of
-	   #{max_quantity := F3} ->
+	   #{min_quantity := F3} ->
 	       begin
 		 TrF3 = id(F3, TrUserData),
 		 if TrF3 =:= 0 -> B2;
@@ -119,26 +121,37 @@ encode_msg_ManufacturerRequest(#{} = M, Bin,
 	   _ -> B2
 	 end,
     B4 = case M of
-	   #{min_price := F4} ->
+	   #{max_quantity := F4} ->
 	       begin
 		 TrF4 = id(F4, TrUserData),
-		 if TrF4 =:= 0.0 -> B3;
+		 if TrF4 =:= 0 -> B3;
 		    true ->
-			e_type_float(TrF4, <<B3/binary, 37>>, TrUserData)
+			e_type_int32(TrF4, <<B3/binary, 32>>, TrUserData)
 		 end
 	       end;
 	   _ -> B3
 	 end,
+    B5 = case M of
+	   #{min_price := F5} ->
+	       begin
+		 TrF5 = id(F5, TrUserData),
+		 if TrF5 =:= 0.0 -> B4;
+		    true ->
+			e_type_float(TrF5, <<B4/binary, 45>>, TrUserData)
+		 end
+	       end;
+	   _ -> B4
+	 end,
     case M of
-      #{seconds := F5} ->
+      #{seconds := F6} ->
 	  begin
-	    TrF5 = id(F5, TrUserData),
-	    if TrF5 =:= 0 -> B4;
+	    TrF6 = id(F6, TrUserData),
+	    if TrF6 =:= 0 -> B5;
 	       true ->
-		   e_type_int32(TrF5, <<B4/binary, 40>>, TrUserData)
+		   e_type_int32(TrF6, <<B5/binary, 48>>, TrUserData)
 	    end
 	  end;
-      _ -> B4
+      _ -> B5
     end.
 
 -compile({nowarn_unused_function,e_type_sint/3}).
@@ -284,6 +297,7 @@ decode_msg_2_doit('ManufacturerRequest', Bin,
 decode_msg_ManufacturerRequest(Bin, TrUserData) ->
     dfp_read_field_def_ManufacturerRequest(Bin, 0, 0,
 					   id([], TrUserData),
+					   id([], TrUserData),
 					   id(0, TrUserData), id(0, TrUserData),
 					   id(0.0, TrUserData),
 					   id(0, TrUserData), TrUserData).
@@ -291,121 +305,136 @@ decode_msg_ManufacturerRequest(Bin, TrUserData) ->
 dfp_read_field_def_ManufacturerRequest(<<10,
 					 Rest/binary>>,
 				       Z1, Z2, F@_1, F@_2, F@_3, F@_4, F@_5,
-				       TrUserData) ->
-    d_field_ManufacturerRequest_name(Rest, Z1, Z2, F@_1,
-				     F@_2, F@_3, F@_4, F@_5, TrUserData);
-dfp_read_field_def_ManufacturerRequest(<<16,
+				       F@_6, TrUserData) ->
+    d_field_ManufacturerRequest_manufacturer(Rest, Z1, Z2,
+					     F@_1, F@_2, F@_3, F@_4, F@_5, F@_6,
+					     TrUserData);
+dfp_read_field_def_ManufacturerRequest(<<18,
 					 Rest/binary>>,
 				       Z1, Z2, F@_1, F@_2, F@_3, F@_4, F@_5,
-				       TrUserData) ->
-    d_field_ManufacturerRequest_min_quantity(Rest, Z1, Z2,
-					     F@_1, F@_2, F@_3, F@_4, F@_5,
-					     TrUserData);
+				       F@_6, TrUserData) ->
+    d_field_ManufacturerRequest_product(Rest, Z1, Z2, F@_1,
+					F@_2, F@_3, F@_4, F@_5, F@_6,
+					TrUserData);
 dfp_read_field_def_ManufacturerRequest(<<24,
 					 Rest/binary>>,
 				       Z1, Z2, F@_1, F@_2, F@_3, F@_4, F@_5,
-				       TrUserData) ->
-    d_field_ManufacturerRequest_max_quantity(Rest, Z1, Z2,
-					     F@_1, F@_2, F@_3, F@_4, F@_5,
+				       F@_6, TrUserData) ->
+    d_field_ManufacturerRequest_min_quantity(Rest, Z1, Z2,
+					     F@_1, F@_2, F@_3, F@_4, F@_5, F@_6,
 					     TrUserData);
-dfp_read_field_def_ManufacturerRequest(<<37,
+dfp_read_field_def_ManufacturerRequest(<<32,
 					 Rest/binary>>,
 				       Z1, Z2, F@_1, F@_2, F@_3, F@_4, F@_5,
-				       TrUserData) ->
+				       F@_6, TrUserData) ->
+    d_field_ManufacturerRequest_max_quantity(Rest, Z1, Z2,
+					     F@_1, F@_2, F@_3, F@_4, F@_5, F@_6,
+					     TrUserData);
+dfp_read_field_def_ManufacturerRequest(<<45,
+					 Rest/binary>>,
+				       Z1, Z2, F@_1, F@_2, F@_3, F@_4, F@_5,
+				       F@_6, TrUserData) ->
     d_field_ManufacturerRequest_min_price(Rest, Z1, Z2,
-					  F@_1, F@_2, F@_3, F@_4, F@_5,
+					  F@_1, F@_2, F@_3, F@_4, F@_5, F@_6,
 					  TrUserData);
-dfp_read_field_def_ManufacturerRequest(<<40,
+dfp_read_field_def_ManufacturerRequest(<<48,
 					 Rest/binary>>,
 				       Z1, Z2, F@_1, F@_2, F@_3, F@_4, F@_5,
-				       TrUserData) ->
+				       F@_6, TrUserData) ->
     d_field_ManufacturerRequest_seconds(Rest, Z1, Z2, F@_1,
-					F@_2, F@_3, F@_4, F@_5, TrUserData);
+					F@_2, F@_3, F@_4, F@_5, F@_6,
+					TrUserData);
 dfp_read_field_def_ManufacturerRequest(<<>>, 0, 0, F@_1,
-				       F@_2, F@_3, F@_4, F@_5, _) ->
-    #{name => F@_1, min_quantity => F@_2,
-      max_quantity => F@_3, min_price => F@_4,
-      seconds => F@_5};
+				       F@_2, F@_3, F@_4, F@_5, F@_6, _) ->
+    #{manufacturer => F@_1, product => F@_2,
+      min_quantity => F@_3, max_quantity => F@_4,
+      min_price => F@_5, seconds => F@_6};
 dfp_read_field_def_ManufacturerRequest(Other, Z1, Z2,
-				       F@_1, F@_2, F@_3, F@_4, F@_5,
+				       F@_1, F@_2, F@_3, F@_4, F@_5, F@_6,
 				       TrUserData) ->
     dg_read_field_def_ManufacturerRequest(Other, Z1, Z2,
-					  F@_1, F@_2, F@_3, F@_4, F@_5,
+					  F@_1, F@_2, F@_3, F@_4, F@_5, F@_6,
 					  TrUserData).
 
 dg_read_field_def_ManufacturerRequest(<<1:1, X:7,
 					Rest/binary>>,
 				      N, Acc, F@_1, F@_2, F@_3, F@_4, F@_5,
-				      TrUserData)
+				      F@_6, TrUserData)
     when N < 32 - 7 ->
     dg_read_field_def_ManufacturerRequest(Rest, N + 7,
 					  X bsl N + Acc, F@_1, F@_2, F@_3, F@_4,
-					  F@_5, TrUserData);
+					  F@_5, F@_6, TrUserData);
 dg_read_field_def_ManufacturerRequest(<<0:1, X:7,
 					Rest/binary>>,
 				      N, Acc, F@_1, F@_2, F@_3, F@_4, F@_5,
-				      TrUserData) ->
+				      F@_6, TrUserData) ->
     Key = X bsl N + Acc,
     case Key of
       10 ->
-	  d_field_ManufacturerRequest_name(Rest, 0, 0, F@_1, F@_2,
-					   F@_3, F@_4, F@_5, TrUserData);
-      16 ->
+	  d_field_ManufacturerRequest_manufacturer(Rest, 0, 0,
+						   F@_1, F@_2, F@_3, F@_4, F@_5,
+						   F@_6, TrUserData);
+      18 ->
+	  d_field_ManufacturerRequest_product(Rest, 0, 0, F@_1,
+					      F@_2, F@_3, F@_4, F@_5, F@_6,
+					      TrUserData);
+      24 ->
 	  d_field_ManufacturerRequest_min_quantity(Rest, 0, 0,
 						   F@_1, F@_2, F@_3, F@_4, F@_5,
-						   TrUserData);
-      24 ->
+						   F@_6, TrUserData);
+      32 ->
 	  d_field_ManufacturerRequest_max_quantity(Rest, 0, 0,
 						   F@_1, F@_2, F@_3, F@_4, F@_5,
-						   TrUserData);
-      37 ->
+						   F@_6, TrUserData);
+      45 ->
 	  d_field_ManufacturerRequest_min_price(Rest, 0, 0, F@_1,
-						F@_2, F@_3, F@_4, F@_5,
+						F@_2, F@_3, F@_4, F@_5, F@_6,
 						TrUserData);
-      40 ->
+      48 ->
 	  d_field_ManufacturerRequest_seconds(Rest, 0, 0, F@_1,
-					      F@_2, F@_3, F@_4, F@_5,
+					      F@_2, F@_3, F@_4, F@_5, F@_6,
 					      TrUserData);
       _ ->
 	  case Key band 7 of
 	    0 ->
 		skip_varint_ManufacturerRequest(Rest, 0, 0, F@_1, F@_2,
-						F@_3, F@_4, F@_5, TrUserData);
+						F@_3, F@_4, F@_5, F@_6,
+						TrUserData);
 	    1 ->
 		skip_64_ManufacturerRequest(Rest, 0, 0, F@_1, F@_2,
-					    F@_3, F@_4, F@_5, TrUserData);
+					    F@_3, F@_4, F@_5, F@_6, TrUserData);
 	    2 ->
 		skip_length_delimited_ManufacturerRequest(Rest, 0, 0,
 							  F@_1, F@_2, F@_3,
-							  F@_4, F@_5,
+							  F@_4, F@_5, F@_6,
 							  TrUserData);
 	    3 ->
 		skip_group_ManufacturerRequest(Rest, Key bsr 3, 0, F@_1,
-					       F@_2, F@_3, F@_4, F@_5,
+					       F@_2, F@_3, F@_4, F@_5, F@_6,
 					       TrUserData);
 	    5 ->
 		skip_32_ManufacturerRequest(Rest, 0, 0, F@_1, F@_2,
-					    F@_3, F@_4, F@_5, TrUserData)
+					    F@_3, F@_4, F@_5, F@_6, TrUserData)
 	  end
     end;
 dg_read_field_def_ManufacturerRequest(<<>>, 0, 0, F@_1,
-				      F@_2, F@_3, F@_4, F@_5, _) ->
-    #{name => F@_1, min_quantity => F@_2,
-      max_quantity => F@_3, min_price => F@_4,
-      seconds => F@_5}.
+				      F@_2, F@_3, F@_4, F@_5, F@_6, _) ->
+    #{manufacturer => F@_1, product => F@_2,
+      min_quantity => F@_3, max_quantity => F@_4,
+      min_price => F@_5, seconds => F@_6}.
 
-d_field_ManufacturerRequest_name(<<1:1, X:7,
-				   Rest/binary>>,
-				 N, Acc, F@_1, F@_2, F@_3, F@_4, F@_5,
-				 TrUserData)
+d_field_ManufacturerRequest_manufacturer(<<1:1, X:7,
+					   Rest/binary>>,
+					 N, Acc, F@_1, F@_2, F@_3, F@_4, F@_5,
+					 F@_6, TrUserData)
     when N < 57 ->
-    d_field_ManufacturerRequest_name(Rest, N + 7,
-				     X bsl N + Acc, F@_1, F@_2, F@_3, F@_4,
-				     F@_5, TrUserData);
-d_field_ManufacturerRequest_name(<<0:1, X:7,
-				   Rest/binary>>,
-				 N, Acc, _, F@_2, F@_3, F@_4, F@_5,
-				 TrUserData) ->
+    d_field_ManufacturerRequest_manufacturer(Rest, N + 7,
+					     X bsl N + Acc, F@_1, F@_2, F@_3,
+					     F@_4, F@_5, F@_6, TrUserData);
+d_field_ManufacturerRequest_manufacturer(<<0:1, X:7,
+					   Rest/binary>>,
+					 N, Acc, _, F@_2, F@_3, F@_4, F@_5,
+					 F@_6, TrUserData) ->
     {NewFValue, RestF} = begin
 			   Len = X bsl N + Acc,
 			   <<Utf8:Len/binary, Rest2/binary>> = Rest,
@@ -415,42 +444,43 @@ d_field_ManufacturerRequest_name(<<0:1, X:7,
 			 end,
     dfp_read_field_def_ManufacturerRequest(RestF, 0, 0,
 					   NewFValue, F@_2, F@_3, F@_4, F@_5,
-					   TrUserData).
+					   F@_6, TrUserData).
+
+d_field_ManufacturerRequest_product(<<1:1, X:7,
+				      Rest/binary>>,
+				    N, Acc, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6,
+				    TrUserData)
+    when N < 57 ->
+    d_field_ManufacturerRequest_product(Rest, N + 7,
+					X bsl N + Acc, F@_1, F@_2, F@_3, F@_4,
+					F@_5, F@_6, TrUserData);
+d_field_ManufacturerRequest_product(<<0:1, X:7,
+				      Rest/binary>>,
+				    N, Acc, F@_1, _, F@_3, F@_4, F@_5, F@_6,
+				    TrUserData) ->
+    {NewFValue, RestF} = begin
+			   Len = X bsl N + Acc,
+			   <<Utf8:Len/binary, Rest2/binary>> = Rest,
+			   {id(unicode:characters_to_list(Utf8, unicode),
+			       TrUserData),
+			    Rest2}
+			 end,
+    dfp_read_field_def_ManufacturerRequest(RestF, 0, 0,
+					   F@_1, NewFValue, F@_3, F@_4, F@_5,
+					   F@_6, TrUserData).
 
 d_field_ManufacturerRequest_min_quantity(<<1:1, X:7,
 					   Rest/binary>>,
 					 N, Acc, F@_1, F@_2, F@_3, F@_4, F@_5,
-					 TrUserData)
+					 F@_6, TrUserData)
     when N < 57 ->
     d_field_ManufacturerRequest_min_quantity(Rest, N + 7,
 					     X bsl N + Acc, F@_1, F@_2, F@_3,
-					     F@_4, F@_5, TrUserData);
+					     F@_4, F@_5, F@_6, TrUserData);
 d_field_ManufacturerRequest_min_quantity(<<0:1, X:7,
 					   Rest/binary>>,
-					 N, Acc, F@_1, _, F@_3, F@_4, F@_5,
-					 TrUserData) ->
-    {NewFValue, RestF} = {begin
-			    <<Res:32/signed-native>> = <<(X bsl N +
-							    Acc):32/unsigned-native>>,
-			    id(Res, TrUserData)
-			  end,
-			  Rest},
-    dfp_read_field_def_ManufacturerRequest(RestF, 0, 0,
-					   F@_1, NewFValue, F@_3, F@_4, F@_5,
-					   TrUserData).
-
-d_field_ManufacturerRequest_max_quantity(<<1:1, X:7,
-					   Rest/binary>>,
-					 N, Acc, F@_1, F@_2, F@_3, F@_4, F@_5,
-					 TrUserData)
-    when N < 57 ->
-    d_field_ManufacturerRequest_max_quantity(Rest, N + 7,
-					     X bsl N + Acc, F@_1, F@_2, F@_3,
-					     F@_4, F@_5, TrUserData);
-d_field_ManufacturerRequest_max_quantity(<<0:1, X:7,
-					   Rest/binary>>,
 					 N, Acc, F@_1, F@_2, _, F@_4, F@_5,
-					 TrUserData) ->
+					 F@_6, TrUserData) ->
     {NewFValue, RestF} = {begin
 			    <<Res:32/signed-native>> = <<(X bsl N +
 							    Acc):32/unsigned-native>>,
@@ -459,52 +489,74 @@ d_field_ManufacturerRequest_max_quantity(<<0:1, X:7,
 			  Rest},
     dfp_read_field_def_ManufacturerRequest(RestF, 0, 0,
 					   F@_1, F@_2, NewFValue, F@_4, F@_5,
-					   TrUserData).
+					   F@_6, TrUserData).
+
+d_field_ManufacturerRequest_max_quantity(<<1:1, X:7,
+					   Rest/binary>>,
+					 N, Acc, F@_1, F@_2, F@_3, F@_4, F@_5,
+					 F@_6, TrUserData)
+    when N < 57 ->
+    d_field_ManufacturerRequest_max_quantity(Rest, N + 7,
+					     X bsl N + Acc, F@_1, F@_2, F@_3,
+					     F@_4, F@_5, F@_6, TrUserData);
+d_field_ManufacturerRequest_max_quantity(<<0:1, X:7,
+					   Rest/binary>>,
+					 N, Acc, F@_1, F@_2, F@_3, _, F@_5,
+					 F@_6, TrUserData) ->
+    {NewFValue, RestF} = {begin
+			    <<Res:32/signed-native>> = <<(X bsl N +
+							    Acc):32/unsigned-native>>,
+			    id(Res, TrUserData)
+			  end,
+			  Rest},
+    dfp_read_field_def_ManufacturerRequest(RestF, 0, 0,
+					   F@_1, F@_2, F@_3, NewFValue, F@_5,
+					   F@_6, TrUserData).
 
 d_field_ManufacturerRequest_min_price(<<0:16, 128, 127,
 					Rest/binary>>,
-				      Z1, Z2, F@_1, F@_2, F@_3, _, F@_5,
+				      Z1, Z2, F@_1, F@_2, F@_3, F@_4, _, F@_6,
 				      TrUserData) ->
     dfp_read_field_def_ManufacturerRequest(Rest, Z1, Z2,
-					   F@_1, F@_2, F@_3,
-					   id(infinity, TrUserData), F@_5,
+					   F@_1, F@_2, F@_3, F@_4,
+					   id(infinity, TrUserData), F@_6,
 					   TrUserData);
 d_field_ManufacturerRequest_min_price(<<0:16, 128, 255,
 					Rest/binary>>,
-				      Z1, Z2, F@_1, F@_2, F@_3, _, F@_5,
+				      Z1, Z2, F@_1, F@_2, F@_3, F@_4, _, F@_6,
 				      TrUserData) ->
     dfp_read_field_def_ManufacturerRequest(Rest, Z1, Z2,
-					   F@_1, F@_2, F@_3,
-					   id('-infinity', TrUserData), F@_5,
+					   F@_1, F@_2, F@_3, F@_4,
+					   id('-infinity', TrUserData), F@_6,
 					   TrUserData);
 d_field_ManufacturerRequest_min_price(<<_:16, 1:1, _:7,
 					_:1, 127:7, Rest/binary>>,
-				      Z1, Z2, F@_1, F@_2, F@_3, _, F@_5,
+				      Z1, Z2, F@_1, F@_2, F@_3, F@_4, _, F@_6,
 				      TrUserData) ->
     dfp_read_field_def_ManufacturerRequest(Rest, Z1, Z2,
-					   F@_1, F@_2, F@_3,
-					   id(nan, TrUserData), F@_5,
+					   F@_1, F@_2, F@_3, F@_4,
+					   id(nan, TrUserData), F@_6,
 					   TrUserData);
 d_field_ManufacturerRequest_min_price(<<Value:32/little-float,
 					Rest/binary>>,
-				      Z1, Z2, F@_1, F@_2, F@_3, _, F@_5,
+				      Z1, Z2, F@_1, F@_2, F@_3, F@_4, _, F@_6,
 				      TrUserData) ->
     dfp_read_field_def_ManufacturerRequest(Rest, Z1, Z2,
-					   F@_1, F@_2, F@_3,
-					   id(Value, TrUserData), F@_5,
+					   F@_1, F@_2, F@_3, F@_4,
+					   id(Value, TrUserData), F@_6,
 					   TrUserData).
 
 d_field_ManufacturerRequest_seconds(<<1:1, X:7,
 				      Rest/binary>>,
-				    N, Acc, F@_1, F@_2, F@_3, F@_4, F@_5,
+				    N, Acc, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6,
 				    TrUserData)
     when N < 57 ->
     d_field_ManufacturerRequest_seconds(Rest, N + 7,
 					X bsl N + Acc, F@_1, F@_2, F@_3, F@_4,
-					F@_5, TrUserData);
+					F@_5, F@_6, TrUserData);
 d_field_ManufacturerRequest_seconds(<<0:1, X:7,
 				      Rest/binary>>,
-				    N, Acc, F@_1, F@_2, F@_3, F@_4, _,
+				    N, Acc, F@_1, F@_2, F@_3, F@_4, F@_5, _,
 				    TrUserData) ->
     {NewFValue, RestF} = {begin
 			    <<Res:32/signed-native>> = <<(X bsl N +
@@ -513,58 +565,60 @@ d_field_ManufacturerRequest_seconds(<<0:1, X:7,
 			  end,
 			  Rest},
     dfp_read_field_def_ManufacturerRequest(RestF, 0, 0,
-					   F@_1, F@_2, F@_3, F@_4, NewFValue,
-					   TrUserData).
+					   F@_1, F@_2, F@_3, F@_4, F@_5,
+					   NewFValue, TrUserData).
 
 skip_varint_ManufacturerRequest(<<1:1, _:7,
 				  Rest/binary>>,
-				Z1, Z2, F@_1, F@_2, F@_3, F@_4, F@_5,
+				Z1, Z2, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6,
 				TrUserData) ->
     skip_varint_ManufacturerRequest(Rest, Z1, Z2, F@_1,
-				    F@_2, F@_3, F@_4, F@_5, TrUserData);
+				    F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
 skip_varint_ManufacturerRequest(<<0:1, _:7,
 				  Rest/binary>>,
-				Z1, Z2, F@_1, F@_2, F@_3, F@_4, F@_5,
+				Z1, Z2, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6,
 				TrUserData) ->
     dfp_read_field_def_ManufacturerRequest(Rest, Z1, Z2,
-					   F@_1, F@_2, F@_3, F@_4, F@_5,
+					   F@_1, F@_2, F@_3, F@_4, F@_5, F@_6,
 					   TrUserData).
 
 skip_length_delimited_ManufacturerRequest(<<1:1, X:7,
 					    Rest/binary>>,
 					  N, Acc, F@_1, F@_2, F@_3, F@_4, F@_5,
-					  TrUserData)
+					  F@_6, TrUserData)
     when N < 57 ->
     skip_length_delimited_ManufacturerRequest(Rest, N + 7,
 					      X bsl N + Acc, F@_1, F@_2, F@_3,
-					      F@_4, F@_5, TrUserData);
+					      F@_4, F@_5, F@_6, TrUserData);
 skip_length_delimited_ManufacturerRequest(<<0:1, X:7,
 					    Rest/binary>>,
 					  N, Acc, F@_1, F@_2, F@_3, F@_4, F@_5,
-					  TrUserData) ->
+					  F@_6, TrUserData) ->
     Length = X bsl N + Acc,
     <<_:Length/binary, Rest2/binary>> = Rest,
     dfp_read_field_def_ManufacturerRequest(Rest2, 0, 0,
-					   F@_1, F@_2, F@_3, F@_4, F@_5,
+					   F@_1, F@_2, F@_3, F@_4, F@_5, F@_6,
 					   TrUserData).
 
 skip_group_ManufacturerRequest(Bin, FNum, Z2, F@_1,
-			       F@_2, F@_3, F@_4, F@_5, TrUserData) ->
+			       F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) ->
     {_, Rest} = read_group(Bin, FNum),
     dfp_read_field_def_ManufacturerRequest(Rest, 0, Z2,
-					   F@_1, F@_2, F@_3, F@_4, F@_5,
+					   F@_1, F@_2, F@_3, F@_4, F@_5, F@_6,
 					   TrUserData).
 
 skip_32_ManufacturerRequest(<<_:32, Rest/binary>>, Z1,
-			    Z2, F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData) ->
+			    Z2, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6,
+			    TrUserData) ->
     dfp_read_field_def_ManufacturerRequest(Rest, Z1, Z2,
-					   F@_1, F@_2, F@_3, F@_4, F@_5,
+					   F@_1, F@_2, F@_3, F@_4, F@_5, F@_6,
 					   TrUserData).
 
 skip_64_ManufacturerRequest(<<_:64, Rest/binary>>, Z1,
-			    Z2, F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData) ->
+			    Z2, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6,
+			    TrUserData) ->
     dfp_read_field_def_ManufacturerRequest(Rest, Z1, Z2,
-					   F@_1, F@_2, F@_3, F@_4, F@_5,
+					   F@_1, F@_2, F@_3, F@_4, F@_5, F@_6,
 					   TrUserData).
 
 read_group(Bin, FieldNum) ->
@@ -639,37 +693,46 @@ merge_msgs(Prev, New, MsgName, Opts) ->
 merge_msg_ManufacturerRequest(PMsg, NMsg, _) ->
     S1 = #{},
     S2 = case {PMsg, NMsg} of
-	   {_, #{name := NFname}} -> S1#{name => NFname};
-	   {#{name := PFname}, _} -> S1#{name => PFname};
+	   {_, #{manufacturer := NFmanufacturer}} ->
+	       S1#{manufacturer => NFmanufacturer};
+	   {#{manufacturer := PFmanufacturer}, _} ->
+	       S1#{manufacturer => PFmanufacturer};
 	   _ -> S1
 	 end,
     S3 = case {PMsg, NMsg} of
-	   {_, #{min_quantity := NFmin_quantity}} ->
-	       S2#{min_quantity => NFmin_quantity};
-	   {#{min_quantity := PFmin_quantity}, _} ->
-	       S2#{min_quantity => PFmin_quantity};
+	   {_, #{product := NFproduct}} ->
+	       S2#{product => NFproduct};
+	   {#{product := PFproduct}, _} ->
+	       S2#{product => PFproduct};
 	   _ -> S2
 	 end,
     S4 = case {PMsg, NMsg} of
-	   {_, #{max_quantity := NFmax_quantity}} ->
-	       S3#{max_quantity => NFmax_quantity};
-	   {#{max_quantity := PFmax_quantity}, _} ->
-	       S3#{max_quantity => PFmax_quantity};
+	   {_, #{min_quantity := NFmin_quantity}} ->
+	       S3#{min_quantity => NFmin_quantity};
+	   {#{min_quantity := PFmin_quantity}, _} ->
+	       S3#{min_quantity => PFmin_quantity};
 	   _ -> S3
 	 end,
     S5 = case {PMsg, NMsg} of
-	   {_, #{min_price := NFmin_price}} ->
-	       S4#{min_price => NFmin_price};
-	   {#{min_price := PFmin_price}, _} ->
-	       S4#{min_price => PFmin_price};
+	   {_, #{max_quantity := NFmax_quantity}} ->
+	       S4#{max_quantity => NFmax_quantity};
+	   {#{max_quantity := PFmax_quantity}, _} ->
+	       S4#{max_quantity => PFmax_quantity};
 	   _ -> S4
+	 end,
+    S6 = case {PMsg, NMsg} of
+	   {_, #{min_price := NFmin_price}} ->
+	       S5#{min_price => NFmin_price};
+	   {#{min_price := PFmin_price}, _} ->
+	       S5#{min_price => PFmin_price};
+	   _ -> S5
 	 end,
     case {PMsg, NMsg} of
       {_, #{seconds := NFseconds}} ->
-	  S5#{seconds => NFseconds};
+	  S6#{seconds => NFseconds};
       {#{seconds := PFseconds}, _} ->
-	  S5#{seconds => PFseconds};
-      _ -> S5
+	  S6#{seconds => PFseconds};
+      _ -> S6
     end.
 
 
@@ -689,31 +752,37 @@ verify_msg(Msg, MsgName, Opts) ->
 -dialyzer({nowarn_function,v_msg_ManufacturerRequest/3}).
 v_msg_ManufacturerRequest(#{} = M, Path, TrUserData) ->
     case M of
-      #{name := F1} ->
-	  v_type_string(F1, [name | Path], TrUserData);
+      #{manufacturer := F1} ->
+	  v_type_string(F1, [manufacturer | Path], TrUserData);
       _ -> ok
     end,
     case M of
-      #{min_quantity := F2} ->
-	  v_type_int32(F2, [min_quantity | Path], TrUserData);
+      #{product := F2} ->
+	  v_type_string(F2, [product | Path], TrUserData);
       _ -> ok
     end,
     case M of
-      #{max_quantity := F3} ->
-	  v_type_int32(F3, [max_quantity | Path], TrUserData);
+      #{min_quantity := F3} ->
+	  v_type_int32(F3, [min_quantity | Path], TrUserData);
       _ -> ok
     end,
     case M of
-      #{min_price := F4} ->
-	  v_type_float(F4, [min_price | Path], TrUserData);
+      #{max_quantity := F4} ->
+	  v_type_int32(F4, [max_quantity | Path], TrUserData);
       _ -> ok
     end,
     case M of
-      #{seconds := F5} ->
-	  v_type_int32(F5, [seconds | Path], TrUserData);
+      #{min_price := F5} ->
+	  v_type_float(F5, [min_price | Path], TrUserData);
       _ -> ok
     end,
-    lists:foreach(fun (name) -> ok;
+    case M of
+      #{seconds := F6} ->
+	  v_type_int32(F6, [seconds | Path], TrUserData);
+      _ -> ok
+    end,
+    lists:foreach(fun (manufacturer) -> ok;
+		      (product) -> ok;
 		      (min_quantity) -> ok;
 		      (max_quantity) -> ok;
 		      (min_price) -> ok;
@@ -815,15 +884,17 @@ cons(Elem, Acc, _TrUserData) -> [Elem | Acc].
 
 get_msg_defs() ->
     [{{msg, 'ManufacturerRequest'},
-      [#{name => name, fnum => 1, rnum => 2, type => string,
+      [#{name => manufacturer, fnum => 1, rnum => 2,
+	 type => string, occurrence => optional, opts => []},
+       #{name => product, fnum => 2, rnum => 3, type => string,
 	 occurrence => optional, opts => []},
-       #{name => min_quantity, fnum => 2, rnum => 3,
+       #{name => min_quantity, fnum => 3, rnum => 4,
 	 type => int32, occurrence => optional, opts => []},
-       #{name => max_quantity, fnum => 3, rnum => 4,
+       #{name => max_quantity, fnum => 4, rnum => 5,
 	 type => int32, occurrence => optional, opts => []},
-       #{name => min_price, fnum => 4, rnum => 5,
+       #{name => min_price, fnum => 5, rnum => 6,
 	 type => float, occurrence => optional, opts => []},
-       #{name => seconds, fnum => 5, rnum => 6, type => int32,
+       #{name => seconds, fnum => 6, rnum => 7, type => int32,
 	 occurrence => optional, opts => []}]}].
 
 
@@ -852,15 +923,17 @@ fetch_enum_def(EnumName) ->
 
 
 find_msg_def('ManufacturerRequest') ->
-    [#{name => name, fnum => 1, rnum => 2, type => string,
+    [#{name => manufacturer, fnum => 1, rnum => 2,
+       type => string, occurrence => optional, opts => []},
+     #{name => product, fnum => 2, rnum => 3, type => string,
        occurrence => optional, opts => []},
-     #{name => min_quantity, fnum => 2, rnum => 3,
+     #{name => min_quantity, fnum => 3, rnum => 4,
        type => int32, occurrence => optional, opts => []},
-     #{name => max_quantity, fnum => 3, rnum => 4,
+     #{name => max_quantity, fnum => 4, rnum => 5,
        type => int32, occurrence => optional, opts => []},
-     #{name => min_price, fnum => 4, rnum => 5,
+     #{name => min_price, fnum => 5, rnum => 6,
        type => float, occurrence => optional, opts => []},
-     #{name => seconds, fnum => 5, rnum => 6, type => int32,
+     #{name => seconds, fnum => 6, rnum => 7, type => int32,
        occurrence => optional, opts => []}];
 find_msg_def(_) -> error.
 

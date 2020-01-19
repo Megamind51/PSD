@@ -29,13 +29,17 @@ public class DepartmentResource {
     private final AtomicLong counter;
 
     public DepartmentResource() {
+
         this.defaultName = "Nome teste";
         this.manufacturers = new ConcurrentHashMap<>();
-        //   this.manufacturers.put("Mano bonito", new Manufacturer( "Mano bonito",1));
+
+
         //   this.manufacturers.put("Mano feio", new Manufacturer( "Mano feio",2));
         //   this.manufacturers.put("Mano meio", new Manufacturer( "Mano meio",3));
         //  this.negociations = new HashMap<>();
         this.counter = new AtomicLong();
+        long id = counter.incrementAndGet();
+        this.manufacturers.put("m0", new Manufacturer( "m0",id));
     }
 
     //---------------------------Rotas de Manufacturers
@@ -108,7 +112,6 @@ public class DepartmentResource {
         long id = counter.incrementAndGet();
         Manufacturer d = this.manufacturers.get(name);
         if (d == null){
-            System.out.println("CHILLING");
             this.manufacturers.put(name,new Manufacturer(name,id));
         }
         else{
@@ -119,7 +122,6 @@ public class DepartmentResource {
 
     @PUT
     public Response addManufacturer(@NotNull @Valid Manufacturer man){
-        System.out.println("MANUF: " + man.getName() + man.getId());
         long id = counter.incrementAndGet();
         man.setId(id);
         this.manufacturers.put(man.getName(),man);
@@ -129,7 +131,7 @@ public class DepartmentResource {
 
 
     @PUT
-    @Path("/{name}/add/")
+    @Path("/{name}/addItem/")
     public Response addItem(@PathParam("name") String name,@NotNull @Valid Item item){
         if(this.manufacturers.containsKey(name)){
             this.manufacturers.get(name).addItem(item);

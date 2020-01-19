@@ -64,8 +64,8 @@ class Thread_Pull extends Thread{
                 e.printStackTrace();
             }
             System.out.println(product.toString());
-            this.sub.subscribe(product.getName());
-            String toSend = "manufacturer_" + product.getName()  + "/Manufacturer " + product.getName() + "for " + product.getMaxQuantity() + "at min_price of " +product.getMinPrice() ;
+            this.sub.subscribe(product.getProduct() + "_" + product.getManufacturer());
+            String toSend = "manufacturer_" + product.getProduct()  + "/Manufacturer " + product.getManufacturer() + " producing " + product.getProduct() + "at max of " + product.getMaxQuantity() + "at min_price of " +product.getMinPrice() ;
             this.pub.send(toSend);
         }
     }
