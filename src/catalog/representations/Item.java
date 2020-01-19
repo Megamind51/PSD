@@ -1,5 +1,9 @@
 package catalog.representations;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.ws.rs.PathParam;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -8,10 +12,10 @@ public class Item {
     private int q_max;
     private int p_min;
     private int time;
-    private int id;
+    private String name;
     private ArrayList<Order> orders;
 
-
+    @JsonProperty
     public int getQ_min() {
         return q_min;
     }
@@ -20,6 +24,7 @@ public class Item {
         this.q_min = q_min;
     }
 
+    @JsonProperty
     public int getQ_max() {
         return q_max;
     }
@@ -28,6 +33,7 @@ public class Item {
         this.q_max = q_max;
     }
 
+    @JsonProperty
     public int getP_min() {
         return p_min;
     }
@@ -36,6 +42,7 @@ public class Item {
         this.p_min = p_min;
     }
 
+    @JsonProperty
     public int getTime() {
         return time;
     }
@@ -44,14 +51,16 @@ public class Item {
         this.time = time;
     }
 
-    public int getId() {
-        return id;
+    @JsonProperty
+    public String getName() {
+        return name;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setName(String name) {
+        this.name = name;
     }
 
+    @JsonProperty
     public ArrayList<Order> getOrders() {
         //  ArrayList<Order> newOrders = new ArrayList<>();
         //  for(Order o: this.orders)
@@ -65,33 +74,42 @@ public class Item {
 
     public void addOrder (Order nova){
         this.orders.add(nova);
+        Collections.sort(this.orders, new CompareObj());
     }
 
-    public Item(int q_min, int q_max, int p_min, int time, int id) {
+    @JsonCreator
+    public Item(@JsonProperty("q_min") int q_min,@JsonProperty("q_max") int q_max,@JsonProperty("p_min") int p_min,@JsonProperty("time") int time,@JsonProperty("name") String name) {
+        this.q_min = q_min;
+        this.q_max = q_max;
+        this.p_min = p_min;
+        this.time = time;
+        this.name = name;
+        this.orders = new ArrayList<>();
+    }
+
+
+
+
+/*
+    @JsonCreator
+    public Item(@JsonProperty("q_min") int q_min,@JsonProperty("q_max") int q_max,@JsonProperty("p_min") int p_min,@JsonProperty("time") int time,@JsonProperty("id") int id,@JsonProperty("orders") ArrayList<Order> orders) {
         this.q_min = q_min;
         this.q_max = q_max;
         this.p_min = p_min;
         this.time = time;
         this.id = id;
         this.orders = new ArrayList<>();
-    }
-
-    public Item(int q_min, int q_max, int p_min, int time, int id, ArrayList<Order> order) {
-        this.q_min = q_min;
-        this.q_max = q_max;
-        this.p_min = p_min;
-        this.time = time;
-        this.id = id;
-        for(Order o: order){
+        for(Order o: orders){
             this.orders.add(o.clone());
         }
     }
+    */
 
     public Item clone(){
-        return new Item(this.q_min,this.q_max,this.p_min,this.time,this.id,this.orders);
+        return new Item(this.q_min,this.q_max,this.p_min,this.time,this.name);
     }
 
-    public int getItemSold(){
+    public int calculateItemSold(){
         Collections.sort(this.orders, new CompareObj());
         int max = this.getQ_max();
         int itemSold = 0;
@@ -104,7 +122,7 @@ public class Item {
         return itemSold;
     }
 
-    public ArrayList<Order> getOrdersFinal(){
+    public ArrayList<Order> calculateOrdersFinal(){
         ArrayList<Order> winners = new ArrayList<>();
         int max = this.getQ_max();
         int itemSold = 0;
@@ -122,7 +140,7 @@ public class Item {
     }
 
 
-    public static void main(String args[]){
+   /* public static void main(String args[]){
         Order o1 = new Order(1,2,3,1);
         Order o2 = new Order(2,2,5,4);
 
@@ -146,6 +164,6 @@ public class Item {
             System.out.println("Quant: " + o.getItemAmount());
 
     }
-
+*/
 
 }
