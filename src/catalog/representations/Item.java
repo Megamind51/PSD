@@ -75,6 +75,7 @@ public class Item {
 
     public void addOrder (Order nova){
         int flag = 0;
+        if(nova.getItemPrice()<this.p_min) return;
         for(Order o: this.orders){
             if(o.getNameUser().equals(nova.getNameUser())){
                 flag=1;
