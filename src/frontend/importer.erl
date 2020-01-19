@@ -17,22 +17,27 @@ importer(Socket) ->
           io:format("MAKE BID!\n");
           %DecodedJSON = makeBid(DecodedMap),
           %io:format("~p~n",[DecodedJSON]);
+
         'LIST_MANUFACTURERS' ->
           io:format("LIST MANUFACTURERS!\n"),
-          DecodedJSON = listManufacturers(DecodedMap),
-          io:format("~p~n",[DecodedJSON]);
+          Reply = listManufacturers(DecodedMap),
+          gen_tcp:send(Sock, Reply),
+          io:format("~p~n",[Reply]);
         'LIST_PRODUCTS' ->
           io:format("LIST PRODUCTS OF MANUFACTURER!\n"),
-          DecodedJSON = listProducts(DecodedMap),
-          io:format("~p~n",[DecodedJSON]);
+          Reply = listProducts(DecodedMap),
+          gen_tcp:send(Sock, Reply),
+        io:format("~p~n",[Reply]);
         'LIST_BIDS' ->
           io:format("LIST BIDS OF A PRODUCT OF A MANUFACTURER!\n"),
-          DecodedJSON = listBids(DecodedMap),
-          io:format("~p~n",[DecodedJSON]);
+          Reply = listBids(DecodedMap),
+          gen_tcp:send(Sock, Reply),
+        io:format("~p~n",[Reply]);
         'CHECK_HISTORY' ->
           io:format("CHECK HISTORY!"),
-          DecodedJSON = checkHistory(DecodedMap),
-          io:format("~p~n",[DecodedJSON])
+          Reply = checkHistory(DecodedMap),
+          gen_tcp:send(Sock, Reply),
+        io:format("~p~n",[Reply])
       end,
       importer(Socket)
   end.
@@ -43,7 +48,8 @@ listManufacturers(DecodedProto) ->
   {ok, {{_, 200, _}, _, Response}} = httpc:request("http://localhost:8080/manufacturers/"),
   _ = inets:stop(),
   DecodedJSON = jiffy:decode(Response, [return_maps]),
-  io:format("~p~n",[DecodedJSON]).
+  io:format("~p~n",[DecodedJSON]),
+  Response.
 
 listProducts(DecodedProto) ->
   io:format("~p~n",[DecodedProto]),
@@ -52,17 +58,19 @@ listProducts(DecodedProto) ->
   {ok, {{_, 200, _}, _, Response}} = httpc:request("http://localhost:8080/manufacturers/" ++ Manufacturer),
   _ = inets:stop(),
   DecodedJSON = jiffy:decode(Response, [return_maps]),
-  io:format("~p~n",[DecodedJSON]).
+  io:format("~p~n",[DecodedJSON]),
+  Response.
 
 listBids(DecodedProto) ->
   io:format("~p~n",[DecodedProto]),
   Manufacturer = maps:get(manufacturer, DecodedProto),
   Product = maps:get(product, DecodedProto),
   inets:start(),
-  {ok, {{_, 200, _}, _, Response}} = httpc:request("http://localhost:8080/manufacturers/" ++ Manufacturer ++ "/" + Product),
+  {ok, {{_, 200, _}, _, Response}} = httpc:request("http://localhost:8080/manufacturers/" ++ Manufacturer ++ "/" ++ Product),
   _ = inets:stop(),
   DecodedJSON = jiffy:decode(Response, [return_maps]),
-  io:format("~p~n",[DecodedJSON]).
+  io:format("~p~n",[DecodedJSON]),
+  Response.
 
 checkHistory(DecodedProto) ->
   io:format("~p~n",[DecodedProto]),
@@ -72,7 +80,8 @@ checkHistory(DecodedProto) ->
   {ok, {{_, 200, _}, _, Response}} = httpc:request("http://localhost:8080/manufacturers/" ++ Manufacturer ++ "/history/" + Product),
   _ = inets:stop(),
   DecodedJSON = jiffy:decode(Response, [return_maps]),
-  io:format("~p~n",[DecodedJSON]).
+  io:format("~p~n",[DecodedJSON]),
+  Response.
 
 makeBid (DecodedProto) ->
   io:format("~p~n",[DecodedProto]),
