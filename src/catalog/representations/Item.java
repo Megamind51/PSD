@@ -74,7 +74,20 @@ public class Item {
     }
 
     public void addOrder (Order nova){
-        this.orders.add(nova);
+        int flag = 0;
+        for(Order o: this.orders){
+            if(o.getNameUser().equals(nova.getNameUser())){
+                flag=1;
+                if(nova.getItemPrice()>o.getItemPrice()){
+                    this.orders.remove(o);
+                    this.orders.add(nova);
+                }
+
+            }
+
+        }
+        if(flag == 0) this.orders.add(nova);
+
         Collections.sort(this.orders, new CompareObj());
     }
 
@@ -173,4 +186,3 @@ public class Item {
 */
 
 }
-

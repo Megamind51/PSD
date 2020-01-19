@@ -15,6 +15,7 @@ public class History  {
    // private ArrayList<Order> orders;
     private int item_sold;
     private ArrayList<Order> ordersWon;
+    private int totalRevenue;
 
 
     @JsonProperty
@@ -24,6 +25,15 @@ public class History  {
 
     public void setQ_min(int q_min) {
         this.q_min = q_min;
+    }
+
+    @JsonProperty
+    public int getTotalRevenue() {
+        return totalRevenue;
+    }
+
+    public void setTotalRevenue(int totalRevenue) {
+        this.totalRevenue = totalRevenue;
     }
 
     @JsonProperty
@@ -94,6 +104,11 @@ public class History  {
      //   }
         this.item_sold = p.calculateItemSold();
         this.ordersWon = p.calculateOrdersFinal();
+        int totalRev = 0;
+        for(Order o: this.ordersWon){
+            totalRev += o.getItemAmount()*o.getItemPrice();
+        }
+        this.totalRevenue = totalRev;
     }
 
 
