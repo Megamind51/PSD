@@ -44,6 +44,9 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="CoverageViewManager">
+    <option name="myElementSize" value="190" />
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -88,11 +91,11 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Client (1)">
+  <component name="RunManager" selected="Application.Client">
     <configuration name="BidMapper" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="worker.BidMapper" />
       <module name="PSD" />
-      <option name="PROGRAM_PARAMETERS" value="10021 10020" />
+      <option name="PROGRAM_PARAMETERS" value="10020 10021" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="worker.*" />
@@ -103,10 +106,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Client (1)" type="Application" factoryName="Application" singleton="false" nameIsGenerated="true">
+    <configuration name="Client" type="Application" factoryName="Application" singleton="false" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="client.Client" />
       <module name="PSD" />
-      <option name="PROGRAM_PARAMETERS" value="10001" />
+      <option name="PROGRAM_PARAMETERS" value="10001 10031" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="client.*" />
@@ -131,7 +134,23 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="NotificationHandler" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="worker.NotificationHandler" />
+      <module name="PSD" />
+      <option name="PROGRAM_PARAMETERS" value="10031 10030" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="worker.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Queue(Pull/Push proxy)" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="11" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="worker.Queue" />
       <module name="PSD" />
       <option name="PROGRAM_PARAMETERS" value="10010 10011" />
@@ -145,8 +164,38 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="SubTester" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="worker.SubTester" />
+      <module name="PSD" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="worker.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Tester" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="worker.Tester" />
+      <module name="PSD" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="worker.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Unnamed" type="CompoundRunConfigurationType">
+      <toRun name="Client" type="Application" />
+      <toRun name="NotificationHandler" type="Application" />
       <toRun name="Negociator" type="Application" />
+      <toRun name="Queue(Pull/Push proxy)" type="Application" />
+      <toRun name="BidMapper" type="Application" />
       <method v="2" />
     </configuration>
     <configuration default="true" type="CompoundRunConfigurationType">
@@ -163,9 +212,18 @@
       <item itemvalue="Application.Queue(Pull/Push proxy)" />
       <item itemvalue="Application.BidMapper" />
       <item itemvalue="Application.Negociator" />
-      <item itemvalue="Application.Client (1)" />
+      <item itemvalue="Application.Client" />
+      <item itemvalue="Application.NotificationHandler" />
+      <item itemvalue="Application.SubTester" />
+      <item itemvalue="Application.Tester" />
       <item itemvalue="Compound.Unnamed" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Tester" />
+        <item itemvalue="Application.SubTester" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="ServiceViewManager">
     <option name="viewStates">
@@ -195,6 +253,11 @@
   <component name="UnknownFeatures">
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.erl" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/Dependencies/gpb" />
+    </ignored-roots>
+  </component>
   <component name="WindowStateProjectService">
     <state x="342" y="67" width="685" height="659" key="#BidMapper" timestamp="1579394766267">
       <screen x="0" y="27" width="1366" height="741" />
@@ -208,6 +271,14 @@
       <screen x="0" y="27" width="1366" height="741" />
     </state>
     <state x="342" y="54" width="671" height="685" key="#Negociator/0.27.1366.741@0.27.1366.741" timestamp="1579394778302" />
+    <state x="792" y="48" key="#NotificationHandler" timestamp="1579436075367">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="792" y="48" key="#NotificationHandler/0.0.1366.728@0.0.1366.728" timestamp="1579436075367" />
+    <state x="275" y="23" key="#Project_Structure" timestamp="1579434974602">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="275" y="23" key="#Project_Structure/0.0.1366.728@0.0.1366.728" timestamp="1579434974602" />
     <state x="342" y="67" width="671" height="659" key="#PusherTest" timestamp="1579361234438">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
@@ -215,70 +286,83 @@
     <state x="342" y="67" width="671" height="659" key="#Queue" timestamp="1579358236517">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
-    <state x="342" y="67" width="671" height="659" key="#Queue(Pull/Push_proxy)" timestamp="1579394790270">
-      <screen x="0" y="27" width="1366" height="741" />
+    <state x="342" y="39" width="580" height="681" key="#Queue(Pull/Push_proxy)" timestamp="1579435144247">
+      <screen x="0" y="0" width="1366" height="728" />
     </state>
+    <state x="342" y="39" width="580" height="681" key="#Queue(Pull/Push_proxy)/0.0.1366.728@0.0.1366.728" timestamp="1579435144247" />
     <state x="342" y="67" width="671" height="659" key="#Queue(Pull/Push_proxy)/0.27.1366.741@0.27.1366.741" timestamp="1579394790269" />
     <state x="342" y="67" width="671" height="659" key="#Queue/0.27.1366.741@0.27.1366.741" timestamp="1579358236517" />
-    <state x="122" y="84" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1579396054909">
-      <screen x="0" y="27" width="1366" height="741" />
+    <state x="122" y="40" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1579469275157">
+      <screen x="0" y="0" width="1366" height="728" />
     </state>
+    <state x="122" y="40" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.728@0.0.1366.728" timestamp="1579469275157" />
     <state x="122" y="84" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.27.1366.741@0.27.1366.741" timestamp="1579396054909" />
     <state x="491" y="109" width="374" height="575" key="#com.intellij.ide.util.MemberChooser" timestamp="1579373134699">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
     <state x="491" y="109" width="374" height="575" key="#com.intellij.ide.util.MemberChooser/0.27.1366.741@0.27.1366.741" timestamp="1579373134699" />
-    <state x="466" y="154" width="424" height="484" key="FileChooserDialogImpl" timestamp="1579394635977">
-      <screen x="0" y="27" width="1366" height="741" />
+    <state x="466" y="125" width="424" height="484" key="FileChooserDialogImpl" timestamp="1579459632813">
+      <screen x="0" y="0" width="1366" height="728" />
     </state>
+    <state x="466" y="125" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1579459632813" />
     <state x="466" y="154" width="424" height="484" key="FileChooserDialogImpl/0.27.1366.741@0.27.1366.741" timestamp="1579394635977" />
-    <state width="1320" height="150" key="GridCell.Tab.0.bottom" timestamp="1579397245742">
-      <screen x="0" y="27" width="1366" height="741" />
+    <state width="1323" height="179" key="GridCell.Tab.0.bottom" timestamp="1579469418993">
+      <screen x="0" y="0" width="1366" height="728" />
     </state>
+    <state width="1323" height="179" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1579469418993" />
     <state width="1320" height="150" key="GridCell.Tab.0.bottom/0.27.1366.741@0.27.1366.741" timestamp="1579397245742" />
-    <state width="1320" height="150" key="GridCell.Tab.0.center" timestamp="1579397245741">
-      <screen x="0" y="27" width="1366" height="741" />
+    <state width="1323" height="179" key="GridCell.Tab.0.center" timestamp="1579469418993">
+      <screen x="0" y="0" width="1366" height="728" />
     </state>
+    <state width="1323" height="179" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1579469418993" />
     <state width="1320" height="150" key="GridCell.Tab.0.center/0.27.1366.741@0.27.1366.741" timestamp="1579397245741" />
-    <state width="1320" height="150" key="GridCell.Tab.0.left" timestamp="1579397245740">
-      <screen x="0" y="27" width="1366" height="741" />
+    <state width="1323" height="179" key="GridCell.Tab.0.left" timestamp="1579469418993">
+      <screen x="0" y="0" width="1366" height="728" />
     </state>
+    <state width="1323" height="179" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1579469418993" />
     <state width="1320" height="150" key="GridCell.Tab.0.left/0.27.1366.741@0.27.1366.741" timestamp="1579397245740" />
-    <state width="1320" height="150" key="GridCell.Tab.0.right" timestamp="1579397245741">
-      <screen x="0" y="27" width="1366" height="741" />
+    <state width="1323" height="179" key="GridCell.Tab.0.right" timestamp="1579469418993">
+      <screen x="0" y="0" width="1366" height="728" />
     </state>
+    <state width="1323" height="179" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1579469418993" />
     <state width="1320" height="150" key="GridCell.Tab.0.right/0.27.1366.741@0.27.1366.741" timestamp="1579397245741" />
-    <state width="1320" height="219" key="GridCell.Tab.1.bottom" timestamp="1579394637520">
-      <screen x="0" y="27" width="1366" height="741" />
+    <state width="1323" height="223" key="GridCell.Tab.1.bottom" timestamp="1579458271884">
+      <screen x="0" y="0" width="1366" height="728" />
     </state>
+    <state width="1323" height="223" key="GridCell.Tab.1.bottom/0.0.1366.728@0.0.1366.728" timestamp="1579458271884" />
     <state width="1320" height="219" key="GridCell.Tab.1.bottom/0.27.1366.741@0.27.1366.741" timestamp="1579394637520" />
-    <state width="1320" height="219" key="GridCell.Tab.1.center" timestamp="1579394637519">
-      <screen x="0" y="27" width="1366" height="741" />
+    <state width="1323" height="223" key="GridCell.Tab.1.center" timestamp="1579458271884">
+      <screen x="0" y="0" width="1366" height="728" />
     </state>
+    <state width="1323" height="223" key="GridCell.Tab.1.center/0.0.1366.728@0.0.1366.728" timestamp="1579458271884" />
     <state width="1320" height="219" key="GridCell.Tab.1.center/0.27.1366.741@0.27.1366.741" timestamp="1579394637519" />
-    <state width="1320" height="219" key="GridCell.Tab.1.left" timestamp="1579394637519">
-      <screen x="0" y="27" width="1366" height="741" />
+    <state width="1323" height="223" key="GridCell.Tab.1.left" timestamp="1579458271884">
+      <screen x="0" y="0" width="1366" height="728" />
     </state>
+    <state width="1323" height="223" key="GridCell.Tab.1.left/0.0.1366.728@0.0.1366.728" timestamp="1579458271884" />
     <state width="1320" height="219" key="GridCell.Tab.1.left/0.27.1366.741@0.27.1366.741" timestamp="1579394637519" />
-    <state width="1320" height="219" key="GridCell.Tab.1.right" timestamp="1579394637520">
-      <screen x="0" y="27" width="1366" height="741" />
+    <state width="1323" height="223" key="GridCell.Tab.1.right" timestamp="1579458271884">
+      <screen x="0" y="0" width="1366" height="728" />
     </state>
+    <state width="1323" height="223" key="GridCell.Tab.1.right/0.0.1366.728@0.0.1366.728" timestamp="1579458271884" />
     <state width="1320" height="219" key="GridCell.Tab.1.right/0.27.1366.741@0.27.1366.741" timestamp="1579394637520" />
     <state x="216" y="54" width="924" height="684" key="Maven.ArtifactSearchDialog" timestamp="1579109118924">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
     <state x="216" y="54" width="924" height="684" key="Maven.ArtifactSearchDialog/0.27.1366.741@0.27.1366.741" timestamp="1579109118924" />
-    <state x="166" y="27" width="1024" height="741" key="SettingsEditor" timestamp="1579394752054">
-      <screen x="0" y="27" width="1366" height="741" />
+    <state x="166" y="0" width="1024" height="741" key="SettingsEditor" timestamp="1579435803642">
+      <screen x="0" y="0" width="1366" height="728" />
     </state>
+    <state x="166" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1579435803642" />
     <state x="166" y="27" width="1024" height="741" key="SettingsEditor/0.27.1366.741@0.27.1366.741" timestamp="1579394752054" />
     <state x="455" y="176" width="446" height="440" key="chooseDestDirectoryDialog" timestamp="1579340371669">
       <screen x="0" y="27" width="1366" height="741" />
     </state>
     <state x="455" y="176" width="446" height="440" key="chooseDestDirectoryDialog/0.27.1366.741@0.27.1366.741" timestamp="1579340371669" />
-    <state x="339" y="224" key="com.intellij.ide.util.TipDialog" timestamp="1579362121927">
-      <screen x="0" y="27" width="1366" height="741" />
+    <state x="339" y="194" key="com.intellij.ide.util.TipDialog" timestamp="1579459393348">
+      <screen x="0" y="0" width="1366" height="728" />
     </state>
+    <state x="339" y="194" key="com.intellij.ide.util.TipDialog/0.0.1366.728@0.0.1366.728" timestamp="1579459393348" />
     <state x="339" y="224" key="com.intellij.ide.util.TipDialog/0.27.1366.741@0.27.1366.741" timestamp="1579362121927" />
     <state x="451" y="316" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1579387799802">
       <screen x="0" y="27" width="1366" height="741" />
@@ -288,9 +372,19 @@
       <screen x="0" y="27" width="1366" height="741" />
     </state>
     <state x="0" y="27" width="1356" height="741" key="new project wizard/0.27.1366.741@0.27.1366.741" timestamp="1579394559532" />
-    <state x="347" y="175" key="run.anything.popup" timestamp="1579377570662">
-      <screen x="0" y="27" width="1366" height="741" />
+    <state x="347" y="145" width="672" height="677" key="run.anything.popup" timestamp="1579465002631">
+      <screen x="0" y="0" width="1366" height="728" />
     </state>
+    <state x="347" y="145" width="672" height="677" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1579465002631" />
     <state x="347" y="175" key="run.anything.popup/0.27.1366.741@0.27.1366.741" timestamp="1579377570662" />
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1579437267853">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1579437267853" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Company$Negociator.ic" NAME="Negociator Coverage Results" MODIFIED="1579465989895" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>worker.*</FILTER>
+    </SUITE>
   </component>
 </project>
