@@ -71,6 +71,10 @@ public class Manufacturer {
        this.history.put(p.getName(),new History(p));
     }
 
+    public History getHistoryItem(String item){
+        return this.history.get(item);
+    }
+
     @JsonCreator
     public Manufacturer(@JsonProperty("name")String name,@JsonProperty("id") long id) {
         this.name = name;

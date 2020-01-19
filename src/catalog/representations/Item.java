@@ -131,9 +131,14 @@ public class Item {
             nova = o.clone();
             if(itemSold + o.getItemAmount() > max ){
                 nova.setItemAmount(max-itemSold);
+                winners.add(nova);
+                return winners ;
             }
-            itemSold+= o.getItemAmount();
-            winners.add(nova);
+            else{
+                winners.add(nova);
+                itemSold+= o.getItemAmount();
+            }
+
         }
 
         return winners;

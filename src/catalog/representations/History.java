@@ -1,6 +1,9 @@
 package catalog.representations;
 
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayList;
 
 public class History  {
@@ -14,6 +17,7 @@ public class History  {
     private ArrayList<Order> ordersWon;
 
 
+    @JsonProperty
     public int getQ_min() {
         return q_min;
     }
@@ -22,6 +26,7 @@ public class History  {
         this.q_min = q_min;
     }
 
+    @JsonProperty
     public int getQ_max() {
         return q_max;
     }
@@ -30,6 +35,7 @@ public class History  {
         this.q_max = q_max;
     }
 
+    @JsonProperty
     public int getP_min() {
         return p_min;
     }
@@ -38,6 +44,7 @@ public class History  {
         this.p_min = p_min;
     }
 
+    @JsonProperty
     public int getTime() {
         return time;
     }
@@ -46,6 +53,7 @@ public class History  {
         this.time = time;
     }
 
+    @JsonProperty
     public String getName() {
         return name;
     }
@@ -61,7 +69,20 @@ public class History  {
 
      */
 
+    @JsonProperty
+    public int getItem_sold(){
+        return this.item_sold;
+    }
 
+    @JsonProperty
+    public ArrayList<Order> getOrdersWon(){
+        return this.ordersWon;
+    }
+
+
+
+
+    @JsonCreator
     public History(Item p) {
         this.q_min = p.getQ_min();
         this.q_max = p.getQ_max();

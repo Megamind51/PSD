@@ -6,11 +6,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import catalog.representations.Order;
+import catalog.representations.*;
 import com.codahale.metrics.annotation.Timed;
-import catalog.representations.Item;
-import catalog.representations.Manufacturer;
-import catalog.representations.Bid;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -66,7 +63,7 @@ public class DepartmentResource {
     //todos os items de um manu
     @GET
     @Timed
-    @Path("/produtos/{name}")
+    @Path("/items/{name}")
     public Response getManuItems(@PathParam("name") String name) {
         Collection v;
         Manufacturer m = this.manufacturers.get(name);
@@ -87,6 +84,20 @@ public class DepartmentResource {
         Item item = m.getItem(nameP);
         return Response.ok(item).build();
     }
+
+    //dados historico de um item de um manu
+    @GET
+    @Timed
+    @Path("/{name}/history/{nameP}")
+    public Response getManuItemHist(@PathParam("name") String name,@PathParam("nameP") String nameP) {
+        Manufacturer m = this.manufacturers.get(name);
+        if (m == null)
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        History hist = m.getHistoryItem(nameP);
+        return Response.ok(hist).build();
+    }
+
+
 
 
     //---------------PUT's
@@ -151,6 +162,8 @@ public class DepartmentResource {
         else throw new WebApplicationException(Response.Status.NOT_FOUND);
 
     }
+
+
 
 
 
