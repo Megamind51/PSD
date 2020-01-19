@@ -32,8 +32,8 @@ public class Negociator {
         this.sub.connect("tcp://localhost:" + sub_port);
         this.pub.connect("tcp://localhost:" + pub_port);
 
-        new Thread_Pull(this.pull, this.sub, this.pub).start();
-        new Thread_Sub(this.sub, this.pub).start();
+       // new Thread_Sub(this.sub, this.pub).start();
+        new Thread_Pull(this.pull, this.sub, this.pub).run();
     }
 
     public static void main(String[] args) {
@@ -67,6 +67,8 @@ class Thread_Pull extends Thread{
             this.sub.subscribe(product.getProduct() + "_" + product.getManufacturer());
             String toSend = "manufacturer_" + product.getProduct()  + "/Manufacturer " + product.getManufacturer() + " producing " + product.getProduct() + "at max of " + product.getMaxQuantity() + "at min_price of " +product.getMinPrice() ;
             this.pub.send(toSend);
+            System.out.println(this.pub.toString());
+            System.out.println(toSend);
         }
     }
 }
