@@ -108,7 +108,6 @@ public class DepartmentResource {
         long id = counter.incrementAndGet();
         Manufacturer d = this.manufacturers.get(name);
         if (d == null){
-            System.out.println("CHILLING");
             this.manufacturers.put(name,new Manufacturer(name,id));
         }
         else{
@@ -119,7 +118,6 @@ public class DepartmentResource {
 
     @PUT
     public Response addManufacturer(@NotNull @Valid Manufacturer man){
-        System.out.println("MANUF: " + man.getName() + man.getId());
         long id = counter.incrementAndGet();
         man.setId(id);
         this.manufacturers.put(man.getName(),man);
@@ -129,7 +127,7 @@ public class DepartmentResource {
 
 
     @PUT
-    @Path("/{name}/add/")
+    @Path("/{name}/addItem/")
     public Response addItem(@PathParam("name") String name,@NotNull @Valid Item item){
         if(this.manufacturers.containsKey(name)){
             this.manufacturers.get(name).addItem(item);
