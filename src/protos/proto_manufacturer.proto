@@ -2,11 +2,12 @@ syntax = "proto3";
 
 message ManufacturerRequest {
 
-    string name = 1;
-    int32 min_quantity = 2;
-    int32 max_quantity = 3;
-    float min_price = 4;
-    int32 seconds = 5;
+    string manufacturer = 1;
+    string product = 2;
+    int32 min_quantity = 3;
+    int32 max_quantity = 4;
+    float min_price = 5;
+    int32 seconds = 6;
 
     // 0 - Authenticated; 1 - User Not Found; 2 - Passwords Don't Match
     // int32 result = 5;

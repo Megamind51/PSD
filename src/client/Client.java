@@ -202,7 +202,8 @@ public class Client {
         String seconds = in.readLine();
 
         ManufacturerRequest product_proto = ManufacturerRequest.newBuilder()
-                .setName(product)
+                .setManufacturer(username)
+                .setProduct(product)
                 .setMinQuantity(Integer.parseInt(min_quantity))
                 .setMaxQuantity(Integer.parseInt(max_quantity))
                 .setMinPrice(Float.parseFloat(price))
@@ -333,6 +334,7 @@ public class Client {
 
         ImporterRequest importerRequest = ImporterRequest.newBuilder()
                 .setOperation(ImporterRequest.Operation.MAKE_BID)
+                .setImporter(username)
                 .setManufacturer(manufacturer)
                 .setProduct(product)
                 .setQuantity(Integer.parseInt(quantity))

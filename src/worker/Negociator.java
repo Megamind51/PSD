@@ -64,7 +64,7 @@ class Thread_Pull extends Thread{
                 e.printStackTrace();
             }
             System.out.println(product.toString());
-            this.sub.subscribe(product.getName());
+            this.sub.subscribe(product.getProduct());
         }
     }
 }
