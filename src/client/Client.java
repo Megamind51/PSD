@@ -8,6 +8,10 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.util.HashSet;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import protos.ProtoAuth.Auth;
 import protos.ProtoManufacturer.ManufacturerRequest;
 import protos.ProtoImporter.ImporterRequest;
@@ -25,10 +29,11 @@ public class Client {
     private BufferedReader in;
     private SocketChannel socketChannel;
     private ByteBuffer byteBuffer;
+    private int notificationPort;
 
     private HashSet<String> subscriptions = new HashSet<>();
 
-    public Client(int server, int socket) throws Exception {
+    public Client(int server) throws Exception {
 
         SocketAddress socketAddress = new InetSocketAddress("localhost", server);
 
@@ -37,7 +42,6 @@ public class Client {
 
         this.context = new ZContext();
         this.sub = context.createSocket(SocketType.SUB);
-        this.sub.connect("tcp://localhost:" + socket);
         new Notificator(sub).start();
 
         byteBuffer = ByteBuffer.allocate(1024);
@@ -53,6 +57,7 @@ public class Client {
     private void startClient() throws Exception{
 
         while (!authenticate());
+        this.sub.connect("tcp://localhost:" + this.notificationPort);
 
         System.out.println("Authenticated!");
 
@@ -135,7 +140,8 @@ public class Client {
 
         switch (auth_proto.getAuthenticated()) {
             case 0:
-                type = auth_proto.getType();
+                this.type = auth_proto.getType();
+                this.notificationPort = auth_proto.getNotificationPort();
                 System.out.println(type);
                 return true;
             case 1:
@@ -280,6 +286,7 @@ public class Client {
                                     .build();
 
                     send(manufacturersRequest.toByteArray());
+                    System.out.println(new String(receive()));
                     break;
 
                 case "2":
@@ -292,6 +299,7 @@ public class Client {
                             .build();
 
                     send(productsRequest.toByteArray());
+                    System.out.println(new String(receive()));
                     break;
 
                 case "3":
@@ -307,6 +315,12 @@ public class Client {
                             .build();
 
                     send(bidsRequest.toByteArray());
+                    String request = new String(receive());
+                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                    JsonParser jp = new JsonParser();
+                    JsonElement je = jp.parse(request);
+                    String prettyJsonString = gson.toJson(je);
+                    System.out.println("PEDIDO: " + prettyJsonString);
                     break;
 
                 case "4":
@@ -319,6 +333,12 @@ public class Client {
                             .build();
 
                     send(historyRequest.toByteArray());
+                    request = new String(receive());
+                    gson = new GsonBuilder().setPrettyPrinting().create();
+                    jp = new JsonParser();
+                    je = jp.parse(request);
+                    prettyJsonString = gson.toJson(je);
+                    System.out.println("PEDIDO: " + prettyJsonString);
                     break;
 
                 case "5":
@@ -381,9 +401,8 @@ public class Client {
 
         // Getting server port from command line
         int port = Integer.parseInt(args[0]);
-        int socket = Integer.parseInt(args[1]);
 
-        new Client(port, socket);
+        new Client(port);
 
     }
 }
