@@ -101,6 +101,16 @@ public class DepartmentResource {
         return Response.ok(hist).build();
     }
 
+    @GET
+    @Timed
+    @Path("/{name}/winners/{nameP}")
+    public Response getManuItemWinners(@PathParam("name") String name,@PathParam("nameP") String nameP) {
+        Manufacturer m = this.manufacturers.get(name);
+        if (m == null)
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        History hist = m.getHistoryItem(nameP);
+        return Response.ok(hist.getOrdersWon()).build();
+    }
 
 
 
