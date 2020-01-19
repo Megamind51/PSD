@@ -12,7 +12,7 @@ importer(Socket) ->
       DecodedMap = proto_importer:decode_msg(EncodedData, 'ImporterRequest'),
       Manufacturer = maps:get(manufacturer, DecodedMap),
       ProductName = maps:get(product, DecodedMap),
-      Topic = Manufacturer ++ "_"++ProductName++"/",
+      Topic = Manufacturer ++ "_" ++ ProductName ++ "/",
       Operation = maps:get(operation, DecodedMap),
       case Operation of
         'MAKE_BID' ->

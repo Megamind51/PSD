@@ -4,7 +4,13 @@
 -export([start/4]).
 
 start(Port, ManufacturerQueuePort, ImporterMapperPort, NotificationPort) ->
-  LoginManager = spawn(fun() -> auth(#{"m0" => {'MANUFACTURER', "pm0"}, "i0" => {'IMPORTER', "pi0"}}, ManufacturerQueuePort, ImporterMapperPort, NotificationPort) end),
+  LoginManager = spawn(fun() -> auth(#{"m0" => {'MANUFACTURER', "pm0"},
+                                       "m1" => {'MANUFACTURER', "pm1"},
+                                       "i0" => {'IMPORTER', "pi0"},
+                                       "i1" => {'IMPORTER', "pi1"},
+                                       "i2" => {'IMPORTER', "pi2"},
+                                       "i3" => {'IMPORTER', "pi3"},
+                                       "i4" => {'IMPORTER', "pi4"}}, ManufacturerQueuePort, ImporterMapperPort, NotificationPort) end),
   {ok, LSock} = gen_tcp:listen(Port, [binary, {packet, 0}, {reuseaddr, true}, {active, true}]),
   application:start(chumak),
   acceptor(LSock, LoginManager).

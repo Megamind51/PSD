@@ -363,6 +363,7 @@ public class Client {
         System.out.println("Price: ");
         String price = in.readLine();
 
+        this.sub.subscribe("bid_" + manufacturer +"_" + product+"/");
         ImporterRequest importerRequest = ImporterRequest.newBuilder()
                 .setOperation(ImporterRequest.Operation.MAKE_BID)
                 .setImporter(username)
