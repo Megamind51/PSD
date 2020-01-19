@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-message Product {
+message ManufacturerRequest {
 
     string name = 1;
     int32 min_quantity = 2;

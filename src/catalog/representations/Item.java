@@ -1,3 +1,4 @@
+
 package catalog.representations;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -172,3 +173,4 @@ public class Item {
 */
 
 }
+
