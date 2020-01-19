@@ -65,6 +65,8 @@ class Thread_Pull extends Thread{
             }
             System.out.println(product.toString());
             this.sub.subscribe(product.getName());
+            String toSend = "manufacturer_" + product.getName()  + "/Manufacturer " + product.getName() + "for " + product.getMaxQuantity() + "at min_price of " +product.getMinPrice() ;
+            this.pub.send(toSend);
         }
     }
 }
@@ -83,15 +85,15 @@ class Thread_Sub extends Thread{
     @Override
     public void run() {
         while(true){
-                byte[] b = this.sub.recv();
+            byte[] b = this.sub.recv();
             ProtoImporter.ImporterRequest bid = null;
             try {
                 bid = ProtoImporter.ImporterRequest.parseFrom(b);
             } catch (InvalidProtocolBufferException e) {
                 e.printStackTrace();
             }
-
-            System.out.println(bid.toString());
+            String toSend = "bid_" + bid.getManufacturer() + "_" + bid.getProduct() + "/Bid no valor de " + bid.getPrice() + "para quantidade de " + bid.getQuantity() + "no produto" +bid.getProduct() + "_" +bid.getManufacturer();
+            this.pub.send(toSend);
         }
     }
 }

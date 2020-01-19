@@ -12,24 +12,33 @@ import protos.ProtoAuth.Auth;
 import protos.ProtoManufacturer.ManufacturerRequest;
 import protos.ProtoImporter.ImporterRequest;
 
+import org.zeromq.SocketType;
+import org.zeromq.ZContext;
+import org.zeromq.ZMQ;
 
 public class Client {
 
     private String username;
     private Auth.Type type;
-
+    private ZMQ.Socket sub  ;
+    private ZContext context ;
     private BufferedReader in;
     private SocketChannel socketChannel;
     private ByteBuffer byteBuffer;
 
     private HashSet<String> subscriptions = new HashSet<>();
 
-    public Client(int server) throws Exception {
+    public Client(int server, int socket) throws Exception {
 
         SocketAddress socketAddress = new InetSocketAddress("localhost", server);
 
         socketChannel = SocketChannel.open();
         socketChannel.connect(socketAddress);
+
+        this.context = new ZContext();
+        this.sub = context.createSocket(SocketType.SUB);
+        this.sub.connect("tcp://localhost:" + socket);
+        new Notificator(sub).start();
 
         byteBuffer = ByteBuffer.allocate(1024);
 
@@ -231,12 +240,14 @@ public class Client {
                     System.out.println("Manufacturer: ");
                     String manufacturer = in.readLine();
                     subscriptions.add(manufacturer);
+                    this.sub.subscribe("manufacturer_" + manufacturer + "/");
                     // SUBSCRIBE 0MQ
                     break;
                 case "2":
                     System.out.println("Manufacturer to remove: ");
                     String manufacturerToRemove = in.readLine();
                     subscriptions.remove(manufacturerToRemove);
+                    this.sub.unsubscribe("manufacturer_" + manufacturerToRemove + "/");
                     // UNSUBSCRIBE 0MQ
                     break;
                 case "3":
@@ -368,8 +379,9 @@ public class Client {
 
         // Getting server port from command line
         int port = Integer.parseInt(args[0]);
+        int socket = Integer.parseInt(args[1]);
 
-        new Client(port);
+        new Client(port, socket);
 
     }
 }

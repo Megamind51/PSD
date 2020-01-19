@@ -1,6 +1,9 @@
 build:
 	mkdir -p ebin
 	cd dependencies/gpb/ && make && cd ../../../
+	chmod +x dependencies/gpb/bin/protoc-erl
+	chmod +x dependencies/gpb/bin/protoc-erl
+	chmod +x dependencies/chumak/rebar3
 	dependencies/gpb/bin/protoc-erl -I. -maps -o src/frontend/ src/protos/*.proto
 	dependencies/protobuf/bin/protoc --java_out=src/protos src/protos/*.proto 
 	sed -i '1s/^/package protos;\n/' src/protos/Proto*.java

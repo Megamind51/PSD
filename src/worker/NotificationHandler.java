@@ -3,13 +3,12 @@ import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
 
-public class BidMapper {
+public class NotificationHandler {
 
     public static void main(String[] args) {
         ZMQ.Context context = ZMQ.context(1);
-
-        ZMQ.Socket pubs = context.socket(SocketType.XSUB);
-        ZMQ.Socket subs = context.socket(SocketType.XPUB);
+        ZMQ.Socket pubs = context.socket(SocketType.XPUB);
+        ZMQ.Socket subs = context.socket(SocketType.XSUB);
         System.out.println(pubs.bind("tcp://*:"+args[0]));
         System.out.println(subs.bind("tcp://*:"+args[1]));
         //ZMQ.proxy(pubs,subs,null);
