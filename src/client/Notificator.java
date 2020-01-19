@@ -15,7 +15,8 @@ public class Notificator extends Thread {
         while(true) {
             byte[] b = sub.recv();
             msg = new String(b);
-            System.out.println("Notification " + msg);
+            msg = msg.replaceFirst("[a-zA-Z0-9]*/","");
+            System.out.println("Notification -> " + msg);
         }
     }
 
