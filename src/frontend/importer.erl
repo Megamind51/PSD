@@ -9,15 +9,18 @@ importerStart(ImporterMappingPort) ->
 importer(Socket) ->
   receive
     {Sock, TcpHandler, EncodedData} ->
-      ok = chumak:send(Socket, EncodedData),
       DecodedMap = proto_importer:decode_msg(EncodedData, 'ImporterRequest'),
+      Manufacturer = maps:get(manufacturer, DecodedMap),
+      ProductName = maps:get(product, DecodedMap),
+      Topic = Manufacturer ++ "_"++ProductName++"/",
       Operation = maps:get(operation, DecodedMap),
       case Operation of
         'MAKE_BID' ->
+          %DataMaisBontiaToSend = [list_to_binary(Topic), EncodedData],
+          Cena2 = list_to_binary(Topic),
+          Cena =  <<Cena2/binary, DecodedMap/binary>>,
+          ok = chumak:send(Socket,Cena),
           io:format("MAKE BID!\n");
-          %DecodedJSON = makeBid(DecodedMap),
-          %io:format("~p~n",[DecodedJSON]);
-
         'LIST_MANUFACTURERS' ->
           io:format("LIST MANUFACTURERS!\n"),
           Reply = listManufacturers(DecodedMap),
