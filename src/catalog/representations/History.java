@@ -109,6 +109,7 @@ public class History  {
             totalRev += o.getItemAmount()*o.getItemPrice();
         }
         this.totalRevenue = totalRev;
+
     }
 
 

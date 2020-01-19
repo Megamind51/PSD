@@ -138,6 +138,13 @@ public class Item {
 
     public ArrayList<Order> calculateOrdersFinal(){
         ArrayList<Order> winners = new ArrayList<>();
+        int p=this.q_min;
+        int t = 0;
+        for(Order o:this.orders){
+            t+=o.getItemAmount();
+        }
+        if(t<p) return winners;
+
         int max = this.getQ_max();
         int itemSold = 0;
         Order nova ;
