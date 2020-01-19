@@ -1,12 +1,12 @@
 -module(manufacturer).
--export([manufacturerStart/2]).
+-export([manufacturerStart/1]).
 
-manufacturerStart(Catalog, ManufacturerQueuePort) ->
+manufacturerStart(ManufacturerQueuePort) ->
   {ok, Socket} = chumak:socket(push),
   {ok, _BindPid} = chumak:connect(Socket, tcp, "localhost", ManufacturerQueuePort),
-  manufacturer(Catalog, Socket).
+  manufacturer(Socket).
 
-manufacturer(Catalog, Socket) ->
+manufacturer(Socket) ->
   receive
     {Sock, TcpHandler, EncodedData} ->
       io:format("BREAKPOINT 15.~n"),
@@ -14,7 +14,7 @@ manufacturer(Catalog, Socket) ->
       io:format("~p~n", [DecodedMap]),
       publishProduct(DecodedMap),
       ok = chumak:send(Socket, EncodedData),
-      manufacturer(Catalog, Socket)
+      manufacturer(Socket)
   end.
 
 publishProduct(DecodedProto) ->
@@ -31,5 +31,5 @@ publishProduct(DecodedProto) ->
                                <<"name">> => list_to_binary(Product)}),
   inets:start(),
   {ok, {{_, HttpResponse, _}, _, Response}} = httpc:request(put, {"http://localhost:8080/manufacturers/" ++ Manufacturer ++ "/addItem/", [], "application/json", EncodedJSON}, [], []),
-  inets:stop(),
+  _ = inets:stop(),
   jiffy:decode(Response, [return_maps]).

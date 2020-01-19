@@ -1,10 +1,9 @@
 -module(auth).
--import(manufacturer, [manufacturerStart/2]).
--import(bot, [manufacturerBot/1]).
--import(importer, [importerStart/2]).
--export([auth/5]).
+-import(manufacturer, [manufacturerStart/1]).
+-import(importer, [importerStart/1]).
+-export([auth/4]).
 
-auth (Credentials, Catalog, ManufacturerQueuePort, ImporterMappingPort, NotificationPort) ->
+auth (Credentials, ManufacturerQueuePort, ImporterMappingPort, NotificationPort) ->
   receive
     {Sock, TcpHandler, EncodedData} ->
       io:format("BREAKPOINT 0.\n"),
@@ -23,8 +22,8 @@ auth (Credentials, Catalog, ManufacturerQueuePort, ImporterMappingPort, Notifica
             {login_granted, Role} ->
               io:format("LOGIN GRANTED.\n"),
               case Role of
-                  'MANUFACTURER' -> NextPID = spawn(fun() -> manufacturerStart(Catalog, ManufacturerQueuePort) end);
-                  'IMPORTER' -> NextPID = spawn(fun() -> importerStart(Catalog, ImporterMappingPort) end)
+                  'MANUFACTURER' -> NextPID = spawn(fun() -> manufacturerStart(ManufacturerQueuePort) end);
+                  'IMPORTER' -> NextPID = spawn(fun() -> importerStart(ImporterMappingPort) end)
               end,
               TcpHandler ! {pid, NextPID},
               ResponseMap = proto_auth:encode_msg(#{username => Username, password => Password, authenticated => 0, type => Role, operation => Operation, notification_port => NotificationPort}, 'Auth'),
@@ -47,7 +46,7 @@ auth (Credentials, Catalog, ManufacturerQueuePort, ImporterMappingPort, Notifica
         % REGISTER OPERATION
         %'REGISTER' ->
       end,
-  auth(Credentials, Catalog, ManufacturerQueuePort, ImporterMappingPort, NotificationPort)
+  auth(Credentials, ManufacturerQueuePort, ImporterMappingPort, NotificationPort)
   end.
 
 login (Credentials, Username, Password) ->
