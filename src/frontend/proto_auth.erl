@@ -58,7 +58,8 @@
         type                    => 'MANUFACTURER' | 'IMPORTER' | integer(), % = 2, enum Auth.Type
         username                => iodata(),        % = 3
         password                => iodata(),        % = 4
-        authenticated           => integer()        % = 5, 32 bits
+        authenticated           => integer(),       % = 5, 32 bits
+        notification_port       => integer()        % = 6, 32 bits
        }.
 
 -export_type(['Auth'/0]).
@@ -132,16 +133,27 @@ encode_msg_Auth(#{} = M, Bin, TrUserData) ->
 	       end;
 	   _ -> B3
 	 end,
+    B5 = case M of
+	   #{authenticated := F5} ->
+	       begin
+		 TrF5 = id(F5, TrUserData),
+		 if TrF5 =:= 0 -> B4;
+		    true ->
+			e_type_int32(TrF5, <<B4/binary, 40>>, TrUserData)
+		 end
+	       end;
+	   _ -> B4
+	 end,
     case M of
-      #{authenticated := F5} ->
+      #{notification_port := F6} ->
 	  begin
-	    TrF5 = id(F5, TrUserData),
-	    if TrF5 =:= 0 -> B4;
+	    TrF6 = id(F6, TrUserData),
+	    if TrF6 =:= 0 -> B5;
 	       true ->
-		   e_type_int32(TrF5, <<B4/binary, 40>>, TrUserData)
+		   e_type_int32(TrF6, <<B5/binary, 48>>, TrUserData)
 	    end
 	  end;
-      _ -> B4
+      _ -> B5
     end.
 
 'e_enum_Auth.Operation'('LOGIN', Bin, _TrUserData) ->
@@ -302,92 +314,102 @@ decode_msg_Auth(Bin, TrUserData) ->
     dfp_read_field_def_Auth(Bin, 0, 0,
 			    id('LOGIN', TrUserData),
 			    id('MANUFACTURER', TrUserData), id([], TrUserData),
-			    id([], TrUserData), id(0, TrUserData), TrUserData).
+			    id([], TrUserData), id(0, TrUserData),
+			    id(0, TrUserData), TrUserData).
 
 dfp_read_field_def_Auth(<<8, Rest/binary>>, Z1, Z2,
-			F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData) ->
+			F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) ->
     d_field_Auth_operation(Rest, Z1, Z2, F@_1, F@_2, F@_3,
-			   F@_4, F@_5, TrUserData);
+			   F@_4, F@_5, F@_6, TrUserData);
 dfp_read_field_def_Auth(<<16, Rest/binary>>, Z1, Z2,
-			F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData) ->
+			F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) ->
     d_field_Auth_type(Rest, Z1, Z2, F@_1, F@_2, F@_3, F@_4,
-		      F@_5, TrUserData);
+		      F@_5, F@_6, TrUserData);
 dfp_read_field_def_Auth(<<26, Rest/binary>>, Z1, Z2,
-			F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData) ->
+			F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) ->
     d_field_Auth_username(Rest, Z1, Z2, F@_1, F@_2, F@_3,
-			  F@_4, F@_5, TrUserData);
+			  F@_4, F@_5, F@_6, TrUserData);
 dfp_read_field_def_Auth(<<34, Rest/binary>>, Z1, Z2,
-			F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData) ->
+			F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) ->
     d_field_Auth_password(Rest, Z1, Z2, F@_1, F@_2, F@_3,
-			  F@_4, F@_5, TrUserData);
+			  F@_4, F@_5, F@_6, TrUserData);
 dfp_read_field_def_Auth(<<40, Rest/binary>>, Z1, Z2,
-			F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData) ->
+			F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) ->
     d_field_Auth_authenticated(Rest, Z1, Z2, F@_1, F@_2,
-			       F@_3, F@_4, F@_5, TrUserData);
+			       F@_3, F@_4, F@_5, F@_6, TrUserData);
+dfp_read_field_def_Auth(<<48, Rest/binary>>, Z1, Z2,
+			F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) ->
+    d_field_Auth_notification_port(Rest, Z1, Z2, F@_1, F@_2,
+				   F@_3, F@_4, F@_5, F@_6, TrUserData);
 dfp_read_field_def_Auth(<<>>, 0, 0, F@_1, F@_2, F@_3,
-			F@_4, F@_5, _) ->
+			F@_4, F@_5, F@_6, _) ->
     #{operation => F@_1, type => F@_2, username => F@_3,
-      password => F@_4, authenticated => F@_5};
+      password => F@_4, authenticated => F@_5,
+      notification_port => F@_6};
 dfp_read_field_def_Auth(Other, Z1, Z2, F@_1, F@_2, F@_3,
-			F@_4, F@_5, TrUserData) ->
+			F@_4, F@_5, F@_6, TrUserData) ->
     dg_read_field_def_Auth(Other, Z1, Z2, F@_1, F@_2, F@_3,
-			   F@_4, F@_5, TrUserData).
+			   F@_4, F@_5, F@_6, TrUserData).
 
 dg_read_field_def_Auth(<<1:1, X:7, Rest/binary>>, N,
-		       Acc, F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData)
+		       Acc, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData)
     when N < 32 - 7 ->
     dg_read_field_def_Auth(Rest, N + 7, X bsl N + Acc, F@_1,
-			   F@_2, F@_3, F@_4, F@_5, TrUserData);
+			   F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
 dg_read_field_def_Auth(<<0:1, X:7, Rest/binary>>, N,
-		       Acc, F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData) ->
+		       Acc, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) ->
     Key = X bsl N + Acc,
     case Key of
       8 ->
 	  d_field_Auth_operation(Rest, 0, 0, F@_1, F@_2, F@_3,
-				 F@_4, F@_5, TrUserData);
+				 F@_4, F@_5, F@_6, TrUserData);
       16 ->
 	  d_field_Auth_type(Rest, 0, 0, F@_1, F@_2, F@_3, F@_4,
-			    F@_5, TrUserData);
+			    F@_5, F@_6, TrUserData);
       26 ->
 	  d_field_Auth_username(Rest, 0, 0, F@_1, F@_2, F@_3,
-				F@_4, F@_5, TrUserData);
+				F@_4, F@_5, F@_6, TrUserData);
       34 ->
 	  d_field_Auth_password(Rest, 0, 0, F@_1, F@_2, F@_3,
-				F@_4, F@_5, TrUserData);
+				F@_4, F@_5, F@_6, TrUserData);
       40 ->
 	  d_field_Auth_authenticated(Rest, 0, 0, F@_1, F@_2, F@_3,
-				     F@_4, F@_5, TrUserData);
+				     F@_4, F@_5, F@_6, TrUserData);
+      48 ->
+	  d_field_Auth_notification_port(Rest, 0, 0, F@_1, F@_2,
+					 F@_3, F@_4, F@_5, F@_6, TrUserData);
       _ ->
 	  case Key band 7 of
 	    0 ->
 		skip_varint_Auth(Rest, 0, 0, F@_1, F@_2, F@_3, F@_4,
-				 F@_5, TrUserData);
+				 F@_5, F@_6, TrUserData);
 	    1 ->
 		skip_64_Auth(Rest, 0, 0, F@_1, F@_2, F@_3, F@_4, F@_5,
-			     TrUserData);
+			     F@_6, TrUserData);
 	    2 ->
 		skip_length_delimited_Auth(Rest, 0, 0, F@_1, F@_2, F@_3,
-					   F@_4, F@_5, TrUserData);
+					   F@_4, F@_5, F@_6, TrUserData);
 	    3 ->
 		skip_group_Auth(Rest, Key bsr 3, 0, F@_1, F@_2, F@_3,
-				F@_4, F@_5, TrUserData);
+				F@_4, F@_5, F@_6, TrUserData);
 	    5 ->
 		skip_32_Auth(Rest, 0, 0, F@_1, F@_2, F@_3, F@_4, F@_5,
-			     TrUserData)
+			     F@_6, TrUserData)
 	  end
     end;
 dg_read_field_def_Auth(<<>>, 0, 0, F@_1, F@_2, F@_3,
-		       F@_4, F@_5, _) ->
+		       F@_4, F@_5, F@_6, _) ->
     #{operation => F@_1, type => F@_2, username => F@_3,
-      password => F@_4, authenticated => F@_5}.
+      password => F@_4, authenticated => F@_5,
+      notification_port => F@_6}.
 
 d_field_Auth_operation(<<1:1, X:7, Rest/binary>>, N,
-		       Acc, F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData)
+		       Acc, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData)
     when N < 57 ->
     d_field_Auth_operation(Rest, N + 7, X bsl N + Acc, F@_1,
-			   F@_2, F@_3, F@_4, F@_5, TrUserData);
+			   F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
 d_field_Auth_operation(<<0:1, X:7, Rest/binary>>, N,
-		       Acc, _, F@_2, F@_3, F@_4, F@_5, TrUserData) ->
+		       Acc, _, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) ->
     {NewFValue, RestF} = {id('d_enum_Auth.Operation'(begin
 						       <<Res:32/signed-native>> =
 							   <<(X bsl N +
@@ -397,15 +419,15 @@ d_field_Auth_operation(<<0:1, X:7, Rest/binary>>, N,
 			     TrUserData),
 			  Rest},
     dfp_read_field_def_Auth(RestF, 0, 0, NewFValue, F@_2,
-			    F@_3, F@_4, F@_5, TrUserData).
+			    F@_3, F@_4, F@_5, F@_6, TrUserData).
 
 d_field_Auth_type(<<1:1, X:7, Rest/binary>>, N, Acc,
-		  F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData)
+		  F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData)
     when N < 57 ->
     d_field_Auth_type(Rest, N + 7, X bsl N + Acc, F@_1,
-		      F@_2, F@_3, F@_4, F@_5, TrUserData);
+		      F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
 d_field_Auth_type(<<0:1, X:7, Rest/binary>>, N, Acc,
-		  F@_1, _, F@_3, F@_4, F@_5, TrUserData) ->
+		  F@_1, _, F@_3, F@_4, F@_5, F@_6, TrUserData) ->
     {NewFValue, RestF} = {id('d_enum_Auth.Type'(begin
 						  <<Res:32/signed-native>> =
 						      <<(X bsl N +
@@ -415,15 +437,15 @@ d_field_Auth_type(<<0:1, X:7, Rest/binary>>, N, Acc,
 			     TrUserData),
 			  Rest},
     dfp_read_field_def_Auth(RestF, 0, 0, F@_1, NewFValue,
-			    F@_3, F@_4, F@_5, TrUserData).
+			    F@_3, F@_4, F@_5, F@_6, TrUserData).
 
 d_field_Auth_username(<<1:1, X:7, Rest/binary>>, N, Acc,
-		      F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData)
+		      F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData)
     when N < 57 ->
     d_field_Auth_username(Rest, N + 7, X bsl N + Acc, F@_1,
-			  F@_2, F@_3, F@_4, F@_5, TrUserData);
+			  F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
 d_field_Auth_username(<<0:1, X:7, Rest/binary>>, N, Acc,
-		      F@_1, F@_2, _, F@_4, F@_5, TrUserData) ->
+		      F@_1, F@_2, _, F@_4, F@_5, F@_6, TrUserData) ->
     {NewFValue, RestF} = begin
 			   Len = X bsl N + Acc,
 			   <<Utf8:Len/binary, Rest2/binary>> = Rest,
@@ -432,15 +454,15 @@ d_field_Auth_username(<<0:1, X:7, Rest/binary>>, N, Acc,
 			    Rest2}
 			 end,
     dfp_read_field_def_Auth(RestF, 0, 0, F@_1, F@_2,
-			    NewFValue, F@_4, F@_5, TrUserData).
+			    NewFValue, F@_4, F@_5, F@_6, TrUserData).
 
 d_field_Auth_password(<<1:1, X:7, Rest/binary>>, N, Acc,
-		      F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData)
+		      F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData)
     when N < 57 ->
     d_field_Auth_password(Rest, N + 7, X bsl N + Acc, F@_1,
-			  F@_2, F@_3, F@_4, F@_5, TrUserData);
+			  F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
 d_field_Auth_password(<<0:1, X:7, Rest/binary>>, N, Acc,
-		      F@_1, F@_2, F@_3, _, F@_5, TrUserData) ->
+		      F@_1, F@_2, F@_3, _, F@_5, F@_6, TrUserData) ->
     {NewFValue, RestF} = begin
 			   Len = X bsl N + Acc,
 			   <<Utf8:Len/binary, Rest2/binary>> = Rest,
@@ -449,15 +471,15 @@ d_field_Auth_password(<<0:1, X:7, Rest/binary>>, N, Acc,
 			    Rest2}
 			 end,
     dfp_read_field_def_Auth(RestF, 0, 0, F@_1, F@_2, F@_3,
-			    NewFValue, F@_5, TrUserData).
+			    NewFValue, F@_5, F@_6, TrUserData).
 
 d_field_Auth_authenticated(<<1:1, X:7, Rest/binary>>, N,
-			   Acc, F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData)
+			   Acc, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData)
     when N < 57 ->
     d_field_Auth_authenticated(Rest, N + 7, X bsl N + Acc,
-			       F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData);
+			       F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
 d_field_Auth_authenticated(<<0:1, X:7, Rest/binary>>, N,
-			   Acc, F@_1, F@_2, F@_3, F@_4, _, TrUserData) ->
+			   Acc, F@_1, F@_2, F@_3, F@_4, _, F@_6, TrUserData) ->
     {NewFValue, RestF} = {begin
 			    <<Res:32/signed-native>> = <<(X bsl N +
 							    Acc):32/unsigned-native>>,
@@ -465,44 +487,66 @@ d_field_Auth_authenticated(<<0:1, X:7, Rest/binary>>, N,
 			  end,
 			  Rest},
     dfp_read_field_def_Auth(RestF, 0, 0, F@_1, F@_2, F@_3,
-			    F@_4, NewFValue, TrUserData).
+			    F@_4, NewFValue, F@_6, TrUserData).
+
+d_field_Auth_notification_port(<<1:1, X:7,
+				 Rest/binary>>,
+			       N, Acc, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6,
+			       TrUserData)
+    when N < 57 ->
+    d_field_Auth_notification_port(Rest, N + 7,
+				   X bsl N + Acc, F@_1, F@_2, F@_3, F@_4, F@_5,
+				   F@_6, TrUserData);
+d_field_Auth_notification_port(<<0:1, X:7,
+				 Rest/binary>>,
+			       N, Acc, F@_1, F@_2, F@_3, F@_4, F@_5, _,
+			       TrUserData) ->
+    {NewFValue, RestF} = {begin
+			    <<Res:32/signed-native>> = <<(X bsl N +
+							    Acc):32/unsigned-native>>,
+			    id(Res, TrUserData)
+			  end,
+			  Rest},
+    dfp_read_field_def_Auth(RestF, 0, 0, F@_1, F@_2, F@_3,
+			    F@_4, F@_5, NewFValue, TrUserData).
 
 skip_varint_Auth(<<1:1, _:7, Rest/binary>>, Z1, Z2,
-		 F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData) ->
+		 F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) ->
     skip_varint_Auth(Rest, Z1, Z2, F@_1, F@_2, F@_3, F@_4,
-		     F@_5, TrUserData);
+		     F@_5, F@_6, TrUserData);
 skip_varint_Auth(<<0:1, _:7, Rest/binary>>, Z1, Z2,
-		 F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData) ->
+		 F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData) ->
     dfp_read_field_def_Auth(Rest, Z1, Z2, F@_1, F@_2, F@_3,
-			    F@_4, F@_5, TrUserData).
+			    F@_4, F@_5, F@_6, TrUserData).
 
 skip_length_delimited_Auth(<<1:1, X:7, Rest/binary>>, N,
-			   Acc, F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData)
+			   Acc, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData)
     when N < 57 ->
     skip_length_delimited_Auth(Rest, N + 7, X bsl N + Acc,
-			       F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData);
+			       F@_1, F@_2, F@_3, F@_4, F@_5, F@_6, TrUserData);
 skip_length_delimited_Auth(<<0:1, X:7, Rest/binary>>, N,
-			   Acc, F@_1, F@_2, F@_3, F@_4, F@_5, TrUserData) ->
+			   Acc, F@_1, F@_2, F@_3, F@_4, F@_5, F@_6,
+			   TrUserData) ->
     Length = X bsl N + Acc,
     <<_:Length/binary, Rest2/binary>> = Rest,
     dfp_read_field_def_Auth(Rest2, 0, 0, F@_1, F@_2, F@_3,
-			    F@_4, F@_5, TrUserData).
+			    F@_4, F@_5, F@_6, TrUserData).
 
 skip_group_Auth(Bin, FNum, Z2, F@_1, F@_2, F@_3, F@_4,
-		F@_5, TrUserData) ->
+		F@_5, F@_6, TrUserData) ->
     {_, Rest} = read_group(Bin, FNum),
     dfp_read_field_def_Auth(Rest, 0, Z2, F@_1, F@_2, F@_3,
-			    F@_4, F@_5, TrUserData).
+			    F@_4, F@_5, F@_6, TrUserData).
 
 skip_32_Auth(<<_:32, Rest/binary>>, Z1, Z2, F@_1, F@_2,
-	     F@_3, F@_4, F@_5, TrUserData) ->
+	     F@_3, F@_4, F@_5, F@_6, TrUserData) ->
     dfp_read_field_def_Auth(Rest, Z1, Z2, F@_1, F@_2, F@_3,
-			    F@_4, F@_5, TrUserData).
+			    F@_4, F@_5, F@_6, TrUserData).
 
 skip_64_Auth(<<_:64, Rest/binary>>, Z1, Z2, F@_1, F@_2,
-	     F@_3, F@_4, F@_5, TrUserData) ->
+	     F@_3, F@_4, F@_5, F@_6, TrUserData) ->
     dfp_read_field_def_Auth(Rest, Z1, Z2, F@_1, F@_2, F@_3,
-			    F@_4, F@_5, TrUserData).
+			    F@_4, F@_5, F@_6, TrUserData).
 
 'd_enum_Auth.Operation'(0) -> 'LOGIN';
 'd_enum_Auth.Operation'(1) -> 'LOGOUT';
@@ -609,12 +653,19 @@ merge_msg_Auth(PMsg, NMsg, _) ->
 	       S4#{password => PFpassword};
 	   _ -> S4
 	 end,
+    S6 = case {PMsg, NMsg} of
+	   {_, #{authenticated := NFauthenticated}} ->
+	       S5#{authenticated => NFauthenticated};
+	   {#{authenticated := PFauthenticated}, _} ->
+	       S5#{authenticated => PFauthenticated};
+	   _ -> S5
+	 end,
     case {PMsg, NMsg} of
-      {_, #{authenticated := NFauthenticated}} ->
-	  S5#{authenticated => NFauthenticated};
-      {#{authenticated := PFauthenticated}, _} ->
-	  S5#{authenticated => PFauthenticated};
-      _ -> S5
+      {_, #{notification_port := NFnotification_port}} ->
+	  S6#{notification_port => NFnotification_port};
+      {#{notification_port := PFnotification_port}, _} ->
+	  S6#{notification_port => PFnotification_port};
+      _ -> S6
     end.
 
 
@@ -658,11 +709,18 @@ v_msg_Auth(#{} = M, Path, TrUserData) ->
 	  v_type_int32(F5, [authenticated | Path], TrUserData);
       _ -> ok
     end,
+    case M of
+      #{notification_port := F6} ->
+	  v_type_int32(F6, [notification_port | Path],
+		       TrUserData);
+      _ -> ok
+    end,
     lists:foreach(fun (operation) -> ok;
 		      (type) -> ok;
 		      (username) -> ok;
 		      (password) -> ok;
 		      (authenticated) -> ok;
+		      (notification_port) -> ok;
 		      (OtherKey) ->
 			  mk_type_error({extraneous_key, OtherKey}, M, Path)
 		  end,
@@ -802,6 +860,8 @@ get_msg_defs() ->
        #{name => password, fnum => 4, rnum => 5,
 	 type => string, occurrence => optional, opts => []},
        #{name => authenticated, fnum => 5, rnum => 6,
+	 type => int32, occurrence => optional, opts => []},
+       #{name => notification_port, fnum => 6, rnum => 7,
 	 type => int32, occurrence => optional, opts => []}]}].
 
 
@@ -843,6 +903,8 @@ find_msg_def('Auth') ->
      #{name => password, fnum => 4, rnum => 5,
        type => string, occurrence => optional, opts => []},
      #{name => authenticated, fnum => 5, rnum => 6,
+       type => int32, occurrence => optional, opts => []},
+     #{name => notification_port, fnum => 6, rnum => 7,
        type => int32, occurrence => optional, opts => []}];
 find_msg_def(_) -> error.
 

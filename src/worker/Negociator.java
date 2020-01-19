@@ -82,10 +82,8 @@ class Thread_Sub extends Thread{
 
     @Override
     public void run() {
-        this.sub.subscribe("");
         while(true){
-            System.out.println("A espera de outro SUB");
-            byte[] b = this.sub.recv();
+                byte[] b = this.sub.recv();
             ProtoImporter.ImporterRequest bid = null;
             try {
                 bid = ProtoImporter.ImporterRequest.parseFrom(b);
