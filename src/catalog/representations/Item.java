@@ -11,7 +11,7 @@ import java.util.Collections;
 public class Item {
     private int q_min;
     private int q_max;
-    private int p_min;
+    private float p_min;
     private int time;
     private String name;
     private ArrayList<Order> orders;
@@ -35,11 +35,11 @@ public class Item {
     }
 
     @JsonProperty
-    public int getP_min() {
+    public float getP_min() {
         return p_min;
     }
 
-    public void setP_min(int p_min) {
+    public void setP_min(float p_min) {
         this.p_min = p_min;
     }
 
@@ -92,7 +92,7 @@ public class Item {
     }
 
     @JsonCreator
-    public Item(@JsonProperty("q_min") int q_min,@JsonProperty("q_max") int q_max,@JsonProperty("p_min") int p_min,@JsonProperty("time") int time,@JsonProperty("name") String name) {
+    public Item(@JsonProperty("q_min") int q_min,@JsonProperty("q_max") int q_max,@JsonProperty("p_min") float p_min,@JsonProperty("time") int time,@JsonProperty("name") String name) {
         this.q_min = q_min;
         this.q_max = q_max;
         this.p_min = p_min;

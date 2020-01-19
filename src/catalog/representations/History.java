@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class History  {
     private int q_min;
     private int q_max;
-    private int p_min;
+    private float p_min;
     private int time;
     private String name;
    // private ArrayList<Order> orders;
@@ -46,7 +46,7 @@ public class History  {
     }
 
     @JsonProperty
-    public int getP_min() {
+    public float getP_min() {
         return p_min;
     }
 

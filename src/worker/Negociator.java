@@ -4,6 +4,7 @@ import catalog.representations.Bid;
 import catalog.representations.Item;
 import catalog.representations.Order;
 import catalog.representations.Manufacturer;
+import com.google.gson.Gson;
 import com.google.protobuf.InvalidProtocolBufferException;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
@@ -11,7 +12,10 @@ import org.zeromq.ZMQ;
 import protos.ProtoImporter;
 import protos.ProtoManufacturer;
 
+import java.io.*;
+import java.net.*;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,7 +64,29 @@ class Thread_Pull extends Thread{
             ProtoManufacturer.ManufacturerRequest product = null;
             try {
                 product = ProtoManufacturer.ManufacturerRequest.parseFrom(b);
-            } catch (InvalidProtocolBufferException e) {
+                Item item = new Item(product.getMinQuantity(),product.getMaxQuantity(),product.getMinPrice(),product.getSeconds(),product.getProduct());
+
+                Gson gson =  new Gson();
+                String novoItem = gson.toJson(item);
+                System.out.println("\nJSON AQUI: " + novoItem);
+                String path = "http://localhost:8080/manufacturers/"+product.getManufacturer()+"/addItem";
+
+                URL url = new URL(path);
+
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setRequestMethod("PUT");
+
+                con.setRequestProperty("Content-Type", "application/json");
+                con.setDoOutput(true);
+                DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+                wr.writeBytes(novoItem);
+                wr.flush();
+                wr.close();
+                int response = con.getResponseCode();
+
+
+
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             System.out.println(product.toString());
@@ -91,7 +117,28 @@ class Thread_Sub extends Thread{
             ProtoImporter.ImporterRequest bid = null;
             try {
                 bid = ProtoImporter.ImporterRequest.parseFrom(b);
-            } catch (InvalidProtocolBufferException e) {
+                Order order = new Order(bid.getImporter(),bid.getQuantity(),bid.getPrice());
+                Gson gson =  new Gson();
+                String novOrder = gson.toJson(order);
+                System.out.println("\nJSON AQUI: " + novOrder);
+                String path = "http://localhost:8080/manufacturers/"+bid.getManufacturer()+"/addBid/"+bid.getProduct();
+
+                URL url = new URL(path);
+
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setRequestMethod("PUT");
+
+                con.setRequestProperty("Content-Type", "application/json");
+                con.setDoOutput(true);
+                DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+                wr.writeBytes(novOrder);
+                wr.flush();
+                wr.close();
+                int response = con.getResponseCode();
+
+
+
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             String toSend = "bid_" + bid.getManufacturer() + "_" + bid.getProduct() + "/Bid no valor de " + bid.getPrice() + "para quantidade de " + bid.getQuantity() + "no produto" +bid.getProduct() + "_" +bid.getManufacturer();

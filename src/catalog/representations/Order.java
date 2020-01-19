@@ -9,7 +9,7 @@ public class Order {
 //    private String nameManu;
 //    private String nameItem;
     private int itemAmount;
-    private int itemPrice;
+    private float itemPrice;
 
     @JsonProperty
     public String getNameUser() {
@@ -48,16 +48,16 @@ public class Order {
     }
 
     @JsonProperty
-    public int getItemPrice() {
+    public float getItemPrice() {
         return itemPrice;
     }
 
-    public void setItemPrice(int itemPrice) {
+    public void setItemPrice(float itemPrice) {
         this.itemPrice = itemPrice;
     }
 
     @JsonCreator
-    public Order(@JsonProperty("nameUser") String nameUser, /*String nameManu, String nameItem,*/ @JsonProperty("itemAmount") int itemAmount,@JsonProperty("itemPrice") int itemPrice) {
+    public Order(@JsonProperty("nameUser") String nameUser, /*String nameManu, String nameItem,*/ @JsonProperty("itemAmount") int itemAmount,@JsonProperty("itemPrice") float itemPrice) {
         this.nameUser = nameUser;
      /*   this.nameManu = nameManu;
         this.nameItem = nameItem; */
