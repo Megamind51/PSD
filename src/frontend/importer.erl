@@ -14,9 +14,9 @@ importer(Socket) ->
       Operation = maps:get(operation, DecodedMap),
       case Operation of
         'MAKE_BID' ->
-          io:format("MAKE BID!\n"),
+          io:format("MAKE BID!\n");
           %DecodedJSON = makeBid(DecodedMap),
-          io:format("~p~n",[DecodedJSON]);
+          %io:format("~p~n",[DecodedJSON]);
         'LIST_MANUFACTURERS' ->
           io:format("LIST MANUFACTURERS!\n"),
           DecodedJSON = listManufacturers(DecodedMap),

@@ -29,7 +29,7 @@ publishProduct(DecodedProto) ->
                               <<"p_min">> => Price,
                                <<"time">> => Seconds,
                                <<"name">> => list_to_binary(Product)}),
-  #inets:start(),
+  inets:start(),
   {ok, {{_, HttpResponse, _}, _, Response}} = httpc:request(put, {"http://localhost:8080/manufacturers/" ++ Manufacturer ++ "/addItem/", [], "application/json", EncodedJSON}, [], []),
   _ = inets:stop(),
   jiffy:decode(Response, [return_maps]).
