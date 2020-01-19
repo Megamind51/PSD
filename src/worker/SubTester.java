@@ -12,6 +12,7 @@ public class SubTester {
         ZMQ.Context context = ZMQ.context(1);
         ZMQ.Socket socket = context.socket(SocketType.SUB);
         socket.connect("tcp://localhost:10001");
+        socket.subscribe("");
         while(true){
             byte[] dados = socket.recv();
             System.out.println(new String(dados));
