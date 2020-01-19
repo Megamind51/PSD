@@ -39,6 +39,7 @@
       <change beforePath="$PROJECT_DIR$/src/protos/ProtoAuth.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/protos/ProtoAuth.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/worker/Negociator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/worker/Negociator.java" afterDir="false" />
     </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -91,6 +92,18 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
   <component name="RunManager" selected="Application.Client">
     <configuration name="BidMapper" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="worker.BidMapper" />
@@ -106,10 +119,18 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="CatalogApplication" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="catalog.CatalogApplication" />
+      <module name="PSD" />
+      <option name="PROGRAM_PARAMETERS" value="server" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Client" type="Application" factoryName="Application" singleton="false" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="client.Client" />
       <module name="PSD" />
-      <option name="PROGRAM_PARAMETERS" value="10001 10031" />
+      <option name="PROGRAM_PARAMETERS" value="10001" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="client.*" />
@@ -150,7 +171,6 @@
     </configuration>
     <configuration name="Queue(Pull/Push proxy)" type="Application" factoryName="Application">
       <option name="ALTERNATIVE_JRE_PATH" value="11" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="worker.Queue" />
       <module name="PSD" />
       <option name="PROGRAM_PARAMETERS" value="10010 10011" />
@@ -191,11 +211,11 @@
       </method>
     </configuration>
     <configuration name="Unnamed" type="CompoundRunConfigurationType">
-      <toRun name="Client" type="Application" />
       <toRun name="NotificationHandler" type="Application" />
-      <toRun name="Negociator" type="Application" />
-      <toRun name="Queue(Pull/Push proxy)" type="Application" />
       <toRun name="BidMapper" type="Application" />
+      <toRun name="Queue(Pull/Push proxy)" type="Application" />
+      <toRun name="CatalogApplication" type="Application" />
+      <toRun name="Negociator" type="Application" />
       <method v="2" />
     </configuration>
     <configuration default="true" type="CompoundRunConfigurationType">
@@ -216,6 +236,7 @@
       <item itemvalue="Application.NotificationHandler" />
       <item itemvalue="Application.SubTester" />
       <item itemvalue="Application.Tester" />
+      <item itemvalue="Application.CatalogApplication" />
       <item itemvalue="Compound.Unnamed" />
     </list>
     <recent_temporary>
@@ -224,18 +245,6 @@
         <item itemvalue="Application.SubTester" />
       </list>
     </recent_temporary>
-  </component>
-  <component name="ServiceViewManager">
-    <option name="viewStates">
-      <list>
-        <serviceView>
-          <treeState>
-            <expand />
-            <select />
-          </treeState>
-        </serviceView>
-      </list>
-    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -250,8 +259,22 @@
     </task>
     <servers />
   </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
   <component name="UnknownFeatures">
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.erl" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <ignored-roots>
@@ -381,10 +404,5 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1579437267853" />
-  </component>
-  <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Company$Negociator.ic" NAME="Negociator Coverage Results" MODIFIED="1579465989895" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>worker.*</FILTER>
-    </SUITE>
   </component>
 </project>

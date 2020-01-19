@@ -18,8 +18,8 @@ importer(Socket) ->
         'MAKE_BID' ->
           %DataMaisBontiaToSend = [list_to_binary(Topic), EncodedData],
           Cena2 = list_to_binary(Topic),
-          Cena =  <<Cena2/binary, DecodedMap/binary>>,
-          ok = chumak:send(Socket,Cena),
+          Cena = <<Cena2/binary, EncodedData/binary>>,
+          ok = chumak:send(Socket, Cena),
           io:format("MAKE BID!\n");
         'LIST_MANUFACTURERS' ->
           io:format("LIST MANUFACTURERS!\n"),
@@ -80,7 +80,7 @@ checkHistory(DecodedProto) ->
   Manufacturer = maps:get(manufacturer, DecodedProto),
   Product = maps:get(product, DecodedProto),
   inets:start(),
-  {ok, {{_, 200, _}, _, Response}} = httpc:request("http://localhost:8080/manufacturers/" ++ Manufacturer ++ "/history/" + Product),
+  {ok, {{_, 200, _}, _, Response}} = httpc:request("http://localhost:8080/manufacturers/" ++ Manufacturer ++ "/history/" ++ Product),
   _ = inets:stop(),
   DecodedJSON = jiffy:decode(Response, [return_maps]),
   io:format("~p~n",[DecodedJSON]),
