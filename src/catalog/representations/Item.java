@@ -75,7 +75,7 @@ public class Item {
 
     public void addOrder (Order nova){
         int flag = 0;
-        if(nova.getItemPrice()<this.p_min) return;
+        if(nova.getItemPrice()<=this.p_min) return;
         for(Order o: this.orders){
             if(o.getNameUser().equals(nova.getNameUser())){
                 flag=1;
@@ -144,7 +144,7 @@ public class Item {
         for(Order o:this.orders){
             t+=o.getItemAmount();
         }
-        if(t<p) return winners;
+        if(t<=p) return winners;
 
         int max = this.getQ_max();
         int itemSold = 0;
