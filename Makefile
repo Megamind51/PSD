@@ -13,3 +13,4 @@ build:
 clean:
 	rm src/frontend/jiffy.erl src/frontend/jiffy_utf8.erl src/frontend/proto_*.erl src/protos/*.java
 	rm -rf ebin
+	rm rebar.lock
